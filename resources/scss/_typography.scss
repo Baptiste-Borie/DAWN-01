@@ -1,0 +1,60 @@
+h1 {
+    font-size: $size-h1;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+h2 {
+    font-size: $size-h2;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+h3 {
+    font-size: $size-h3;
+    font-weight: 500;
+}
+
+.label {
+    font-family: $font-mono;
+    font-size: $size-label;
+    letter-spacing: $tracking-label;
+    text-transform: uppercase;
+    color: $text-muted;
+
+    &--orange {
+        color: $orange;
+    }
+    &--cream {
+        color: $cream;
+    }
+}
+
+.mono {
+    font-family: $font-mono;
+    font-size: 14px;
+    letter-spacing: $tracking-mono;
+    font-weight: 400;
+
+    &--data {
+        font-weight: 500;
+    }
+    &--green {
+        color: $green-crt;
+    }
+    &--amber {
+        color: $amber;
+    }
+    &--red {
+        color: $red-alert;
+    }
+    &--muted {
+        color: $text-muted;
+    }
+    &--cream {
+        color: $cream;
+    }
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}

@@ -1,0 +1,62 @@
+// ─── Couleurs ───────────────────────────────────────
+$ivory: #f5efe4;
+$ivory-border: #d8ccba;
+$void: #0d0d0d;
+$anthracite: #1a1a1a;
+$cream: #f0e6d3;
+
+$orange: #c94e1e;
+$orange-dark: #a03d16;
+
+$green-crt: #39ff14;
+$green-crt-dark: #169400;
+$amber: #e8a020;
+$red-alert: #cc1a1a;
+
+$text-dark: #1a1a1a;
+$text-muted: #888888;
+$text-subtle: #555555;
+
+// ─── Typographie ────────────────────────────────────
+$font-ui: "Space Grotesk", sans-serif;
+$font-mono: "IBM Plex Mono", monospace;
+
+$size-label: 11px;
+$size-body: 15px;
+$size-h3: 18px;
+$size-h2: 24px;
+$size-h1: 40px;
+
+$tracking-label: 0.15em;
+$tracking-mono: 0.08em;
+
+// ─── Spacing ────────────────────────────────────────
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 40px;
+$space-2xl: 64px;
+
+// ─── Radius ─────────────────────────────────────────
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+
+// ─── Borders ────────────────────────────────────────
+$border-light: 0.5px solid $ivory-border;
+$border-dark: 0.5px solid #2a2a2a;
+$border-orange: 0.5px solid rgba($orange, 0.4);
+
+.color--orange {
+    color: $orange;
+}
+.fill--orange {
+    background-color: $orange;
+}
+.color--ivory {
+    color: $ivory;
+}
+.color--green-crt {
+    color: $green-crt;
+}

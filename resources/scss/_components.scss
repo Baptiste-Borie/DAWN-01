@@ -1,0 +1,116 @@
+// ─── Status dot ─────────────────────────────────────
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &--online {
+        background: $green-crt;
+    }
+    &--warning {
+        background: $amber;
+    }
+    &--offline {
+        background: $red-alert;
+    }
+    &--idle {
+        background: $text-muted;
+    }
+}
+
+// ─── Boutons ────────────────────────────────────────
+.btn {
+    font-family: $font-mono;
+    font-size: $size-label;
+    letter-spacing: $tracking-label;
+    text-transform: uppercase;
+    padding: $space-sm $space-lg;
+    border-radius: $radius-md;
+    border: 0.5px solid $orange;
+    color: $orange;
+    background: transparent;
+    transition:
+        background 0.15s,
+        color 0.15s;
+    cursor: pointer;
+
+    &:hover {
+        background: $orange;
+        color: $ivory;
+    }
+
+    &--filled {
+        background: $orange;
+        color: $ivory;
+        &:hover {
+            background: $orange-dark;
+        }
+    }
+
+    &--dark {
+        border-color: rgba($cream, 0.25);
+        color: $cream;
+        &:hover {
+            background: rgba($cream, 0.06);
+        }
+    }
+}
+
+// ─── Cards ──────────────────────────────────────────
+.card {
+    background: white;
+    border: $border-light;
+    border-radius: $radius-lg;
+    padding: $space-lg;
+
+    &--ivory {
+        background: $ivory;
+        border-color: $ivory-border;
+    }
+
+    &--dark {
+        background: $anthracite;
+        border: $border-dark;
+        color: $cream;
+    }
+}
+
+// ─── Badge ──────────────────────────────────────────
+.badge {
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: $radius-sm;
+
+    &--orange {
+        background: rgba($orange, 0.1);
+        color: $orange-dark;
+        border: 0.5px solid rgba($orange, 0.3);
+    }
+
+    &--green {
+        background: rgba($green-crt, 0.08);
+        color: $green-crt-dark;
+        border: 0.5px solid rgba($green-crt, 0.25);
+    }
+
+    &--red {
+        background: rgba($red-alert, 0.08);
+        color: $red-alert;
+        border: 0.5px solid rgba($red-alert, 0.25);
+    }
+}
+
+// ─── Divider ────────────────────────────────────────
+.divider {
+    height: 0.5px;
+    background: $ivory-border;
+
+    &--dark {
+        background: #2a2a2a;
+    }
+}
