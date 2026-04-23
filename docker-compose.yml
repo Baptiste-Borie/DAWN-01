@@ -3,13 +3,16 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+    restart: unless-stopped
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
     environment:
       - APP_ENV=local
+
   nginx:
     image: nginx:alpine
+    restart: unless-stopped
     ports:
       - "8000:80"
     volumes:
