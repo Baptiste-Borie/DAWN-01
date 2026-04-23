@@ -1,12 +1,13 @@
 services:
   app:
-    image: php:8.4-fpm
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
     environment:
       - APP_ENV=local
-
   nginx:
     image: nginx:alpine
     ports:
