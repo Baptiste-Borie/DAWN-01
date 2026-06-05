@@ -13,11 +13,11 @@ html {
 }
 
 body {
-    font-family: $font-ui;
-    font-size: $size-body;
-    color: $text-dark;
-    background: $ivory;
-    line-height: 1.6;
+    font-family: $font-ui !important;
+    font-size: $size-body !important;
+    color: $text-dark !important;
+    background: $ivory !important;
+    line-height: 1.6 !important;
 }
 
 a {

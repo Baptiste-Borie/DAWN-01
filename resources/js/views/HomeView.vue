@@ -1,42 +1,37 @@
 <template>
-    <AppNavbar :time="time" :date="now" :username="username" />
-
-    <div class="centered gap-5 mt-4" style="justify-content: space-around">
-        <quote-sheet />
-        <terminal-shell :date="now" :username="username" />
-    </div>
+    <PageLayout>
+        <template #content>
+            <div class="d-flex gap-5 mt-4" style="justify-content: space-around">
+                <quote-sheet />
+                <terminal-shell :date="now" :username="username" />
+            </div>
+            <service-grid />
+        </template>
+    </PageLayout>
 </template>
 
 <script>
-import AppNavbar from "../components/ui/AppNavbar.vue";
-import TerminalShell from "../components/ui/terminal/TerminalShell.vue";
-import QuoteSheet from "../components/QuoteSheet.vue";
+import PageLayout from "@/layouts/PageLayout.vue";
+import TerminalShell from "@/components/ui/terminal/TerminalShell.vue";
+import QuoteSheet from "@/components/ui/QuoteSheet.vue";
+import ServiceGrid from "@/components/ui/ServiceGrid.vue";
 
 export default {
     name: "HomeView",
-    components: { AppNavbar, TerminalShell, QuoteSheet },
+    components: { PageLayout, TerminalShell, QuoteSheet, ServiceGrid },
     data() {
         return {
             now: new Date(),
             username: "pioneer",
         };
     },
-    computed: {
-        time() {
-            return this.now.toLocaleTimeString("fr-FR", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-            });
-        },
-    },
     mounted() {
-        this.timer = setInterval(() => {
+        this._timer = setInterval(() => {
             this.now = new Date();
         }, 1000);
     },
     beforeUnmount() {
-        clearInterval(this.timer);
+        clearInterval(this._timer);
     },
 };
 </script>
