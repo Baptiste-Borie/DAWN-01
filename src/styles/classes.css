@@ -1,0 +1,387 @@
+/* =============================================================================
+   DAWN-01 — classes génériques du design system
+   Atomes réutilisables par n'importe quel composant (grain de panel, LCD, LED,
+   knob, touches...). Ne déclare aucune couleur/ombre brute : tout référence
+   les tokens de src/index.css. Le CSS propre à un composant précis reste dans
+   src/styles/components.css.
+   ============================================================================= */
+
+.debug {
+  border: 2px dashed red;
+}
+@layer components {
+  /* ---------------------------------------------------------------------------
+     GRAIN — wrapper GLOBAL UNIQUE.
+     Un grain par composant produit des coutures visibles aux jonctions.
+     Deux couches de feTurbulence : speckle fin (1.35) + marbrure large (0.28).
+     Le pseudo-élément passe DERRIÈRE via z-index négatif, contenu par
+     isolation: isolate sur le parent.
+     --------------------------------------------------------------------------- */
+  .panel {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.35' numOctaves='2' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.62'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.28' numOctaves='3' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)' opacity='0.16'/%3E%3C/svg%3E");
+  }
+
+  /* Vignette bas-gauche, cohérente avec la source lumineuse haut-droite. */
+  .panel-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      90% 70% at 8% 100%,
+      rgb(20 16 8 / 0.38),
+      transparent 58%
+    );
+  }
+
+  /* Chanfrein interne du panneau. */
+  .panel-bevel {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 5;
+    box-shadow:
+      inset 0 2px 2px rgb(255 255 255 / 0.35),
+      inset 0 -4px 8px rgb(0 0 0 / 0.4),
+      inset -2px 0 5px rgb(255 255 255 / 0.08),
+      inset 3px 0 7px rgb(0 0 0 / 0.2);
+  }
+
+  /* ---------------------------------------------------------------------------
+     Pièces lisses (touches, LCD, knobs) : doivent passer AU-DESSUS du grain.
+     À appliquer sur tout élément qui ne doit pas recevoir la texture.
+     --------------------------------------------------------------------------- */
+  .above-grain {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------------------------------------------------------------------------
+     ATOMES PARTAGÉS — issus de refs/dawn-home-mockup.html
+     Réutilisables par tout composant (LCD, LED, knob, touches...).
+     --------------------------------------------------------------------------- */
+
+  /* Écrans LCD */
+  .lcd,
+  .lcd-dark {
+    border-radius: var(--radius-md);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    padding: 6px 11px;
+  }
+  .lcd {
+    background: linear-gradient(var(--stop-lcd-0), var(--stop-lcd-1));
+    box-shadow: var(--shadow-creuse);
+    color: var(--color-on-lcd);
+  }
+  .lcd-dark {
+    background: linear-gradient(var(--stop-lcd-dark-0), var(--stop-lcd-dark-1));
+    box-shadow: var(--shadow-creuse-profond);
+    color: var(--color-on-lcd-dark);
+  }
+  .lcd-clock {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    min-width: 118px;
+    padding: 7px 12px;
+  }
+
+  /* Jauge : label + écran LCD */
+  .gauge {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+  }
+  .gauge > span {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    color: var(--color-ink-muted);
+    padding-left: 2px;
+  }
+  .gauge .lcd-dark,
+  .gauge .lcd {
+    font-size: 12px;
+    letter-spacing: 1px;
+    min-width: 86px;
+  }
+
+  /* Voyants LED */
+  .led {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .led-on {
+    background: radial-gradient(
+      circle at 40% 32%,
+      var(--color-led-core),
+      var(--color-led) 55%,
+      var(--color-led-rim)
+    );
+    box-shadow:
+      var(--sh-glow-led),
+      inset 0 -2px 3px rgb(0 0 0 / 0.25);
+  }
+  .led-off {
+    background: radial-gradient(
+      circle at 40% 32%,
+      var(--color-led-off),
+      var(--color-led-off-rim) 70%
+    );
+    box-shadow: inset 0 -2px 3px rgb(0 0 0 / 0.5);
+  }
+  .led-amber {
+    background: radial-gradient(
+      circle at 40% 32%,
+      #fff3c9,
+      var(--color-amber) 55%,
+      #96690f
+    );
+    box-shadow:
+      0 0 10px rgb(232 160 32 / 0.7),
+      inset 0 -2px 3px rgb(0 0 0 / 0.25);
+  }
+  .led-alert {
+    background: radial-gradient(
+      circle at 40% 32%,
+      #ffd4d4,
+      var(--color-alert) 55%,
+      #7a1010
+    );
+    box-shadow:
+      0 0 10px rgb(204 26 26 / 0.7),
+      inset 0 -2px 3px rgb(0 0 0 / 0.25);
+  }
+  .led-blink {
+    animation: led-blink 1s step-end infinite;
+  }
+  @keyframes led-blink {
+    50% {
+      opacity: 0.3;
+    }
+  }
+  .led-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .led-row span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-ink-muted);
+  }
+  .led-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .led-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .led-mini span {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--color-ink-muted);
+  }
+  .led-tri {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* Potards */
+  .pot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .pot .cap {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    color: var(--color-ink-muted);
+  }
+  .knob {
+    border-radius: 50%;
+    position: relative;
+    cursor: grab;
+    width: 44px;
+    height: 44px;
+    background: radial-gradient(
+      circle at 50% 22%,
+      var(--stop-knob-0) 0%,
+      var(--stop-knob-1) 40%,
+      var(--stop-knob-2) 80%,
+      var(--stop-knob-3) 100%
+    );
+    box-shadow: var(--shadow-bombe-knob);
+  }
+  .knob::before {
+    content: "";
+    position: absolute;
+    top: 9%;
+    left: 50%;
+    width: 5px;
+    height: 27%;
+    transform: translateX(-50%);
+    border-radius: 3px;
+    background: linear-gradient(
+      var(--stop-knob-pointer-0),
+      var(--stop-knob-pointer-1)
+    );
+  }
+  .knob.big {
+    width: 62px;
+    height: 62px;
+    background: radial-gradient(
+      circle at 50% 16%,
+      #6e6e6e 0%,
+      #333 30%,
+      #171717 68%,
+      #0a0a0a 100%
+    );
+  }
+  .knob.big::before {
+    width: 6px;
+    height: 25%;
+    top: 6%;
+  }
+
+  /* Touches, dark-key, pill */
+  .key {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    width: 44px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--color-on-key);
+    background: linear-gradient(var(--stop-key-0), var(--stop-key-1));
+    box-shadow: var(--shadow-bombe);
+  }
+  .key.on {
+    color: var(--color-on-key-on);
+    background: linear-gradient(var(--stop-key-on-0), var(--stop-key-on-1));
+    box-shadow:
+      -3px 4px 3px rgb(0 0 0 / 0.38),
+      inset 0 0 14px rgb(255 255 255 / 0.45),
+      var(--sh-glow-key-on);
+  }
+
+  .dark-key {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    padding: 9px 18px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(var(--stop-darkkey-0), var(--stop-darkkey-1));
+    color: var(--color-on-darkkey);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    box-shadow:
+      -3px 4px 3px rgb(0 0 0 / 0.42),
+      inset 0 1px 1px rgb(255 255 255 / 0.2),
+      inset 0 -4px 6px rgb(0 0 0 / 0.5);
+  }
+  .dark-key:active {
+    box-shadow: var(--sh-hollow-top-deep);
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 150px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 9999px;
+    cursor: pointer;
+    background: linear-gradient(var(--stop-recess-0), var(--stop-recess-1));
+    border: 1px solid #6f6a58;
+    box-shadow: var(--sh-hollow-top), var(--sh-sliver);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    color: var(--color-ink-strong);
+  }
+  .pill span:first-child,
+  .pill span:last-child {
+    font-size: 9px;
+  }
+
+  /* Labels de section */
+  .silk-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+  .silk-small {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--color-ink-soft);
+  }
+  .zone-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--color-ink-strong);
+  }
+
+  /* Coque du panneau Home — .panel + fond boîtier + grande ombre portée */
+  .home-panel {
+    width: 100%;
+    max-width: 1300px;
+    margin-inline: auto;
+    border-radius: var(--radius-xl);
+    padding: 24px 30px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: radial-gradient(
+      125% 105% at 66% 0%,
+      var(--stop-casing-0) 0%,
+      var(--stop-casing-1) 50%,
+      var(--stop-casing-2) 78%,
+      var(--stop-casing-3) 100%
+    );
+    box-shadow:
+      0 12px 30px rgb(0 0 0 / 0.22),
+      0 24px 60px rgb(0 0 0 / 0.28),
+      0 0 40px rgb(190 183 158 / 0.18),
+      0 0 80px rgb(190 183 158 / 0.14),
+      0 0 140px rgb(190 183 158 / 0.1);
+  }
+}

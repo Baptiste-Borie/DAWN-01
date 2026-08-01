@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DAWN — connecteur CSS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --stop-casing-0: #beb79e;
+        --stop-casing-1: #b1aa90;
+        --stop-casing-2: #a09a7e;
+        --stop-casing-3: #8b846b;
+        --stop-bezel-0: #453f34;
+        --stop-bezel-1: #211d16;
+        --stop-bezel-2: #1b1712;
+        --stop-bezel-3: #141009;
+        --stop-key-0: #b7b3a0;
+        --stop-key-1: #a5a18d;
+        --stop-lcd-dark-0: #1c1a15;
+        --stop-lcd-dark-1: #2e2b23;
+        --color-ink: #33312a;
+        --color-ink-faint: #514e3b;
+        --color-on-lcd-dark: #d7d3c6;
+        --color-on-chan: #8f8b7c;
+        --color-crt: #39ff14;
+        --color-burnt: #c94e1e;
+        --color-led-core: #f2ffc4;
+        --color-led: #b3e94e;
+        --color-led-rim: #558f18;
+        /* laiton des contacts */
+        --brass-hi: #e8c878;
+        --brass: #c9a35a;
+        --brass-lo: #8a6f34;
+        --brass-shadow: #4a3a15;
+        --radius-sm: 7px;
+        --radius-md: 9px;
+        --radius-lg: 13px;
+        --radius-xl: 26px;
+        --sh-hollow-top-deep: inset 0 3px 6px rgb(0 0 0/0.7);
+        --sh-bevel-top: inset 0 2px 2px rgb(255 255 255/0.45);
+        --sh-glow-led: 0 0 10px rgb(170 235 80/0.85);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        background: #26241f;
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--color-ink);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        gap: 18px;
+      }
+      .hint {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: #b8b09a;
+        letter-spacing: 1px;
+      }
+      .toggle {
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        padding: 9px 20px;
+        border-radius: var(--radius-md);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #2e2c24;
+        background: linear-gradient(var(--stop-key-0), var(--stop-key-1));
+        box-shadow:
+          0 0 0 1px rgb(50 45 35/0.3),
+          -3px 4px 3px rgb(0 0 0/0.4),
+          inset 0 2px 2px rgb(255 255 255/0.45),
+          inset 0 -5px 7px rgb(0 0 0/0.22);
+      }
+
+      .rig {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      /* ---- HOME (fragment de flanc droit) ---- */
+      .home-edge {
+        width: 340px;
+        height: 340px;
+        border-radius: var(--radius-xl);
+        position: relative;
+        z-index: 2;
+        background: radial-gradient(
+          125% 105% at 30% 0%,
+          var(--stop-casing-0),
+          var(--stop-casing-1) 50%,
+          var(--stop-casing-2) 78%,
+          var(--stop-casing-3)
+        );
+        box-shadow: 0 20px 46px rgb(0 0 0/0.5);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 20px;
+      }
+      .home-label {
+        position: absolute;
+        top: 18px;
+        left: 22px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: var(--color-ink-faint);
+      }
+
+      /* ====== LE PORT FEMELLE ====== */
+      /* renfoncement sombre creusé dans le flanc, avec 3 fentes de contact */
+      .port {
+        position: relative;
+        right: -15px;
+        width: 34px;
+        height: 150px;
+        border-radius: 6px 3px 3px 6px;
+        background: linear-gradient(90deg, #0e0b07, #1c180f);
+        box-shadow:
+          inset 0 2px 5px rgb(0 0 0/0.85),
+          /* profondeur du trou */ inset 3px 0 6px rgb(0 0 0/0.7),
+          inset -1px 0 0 rgb(255 255 255/0.12),
+          /* lèvre droite éclairée */ 0 1px 0 rgb(255 255 255/0.25); /* liseré bas */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+        padding: 0 8px;
+      }
+      /* les 3 réceptacles de contact (fentes creuses) */
+      .port-slot {
+        height: 20px;
+        border-radius: 2px;
+        background: #050403;
+        box-shadow:
+          inset 0 1px 2px rgb(0 0 0/0.9),
+          inset 0 0 0 1px rgb(90 75 40/0.25);
+        position: relative;
+        overflow: hidden;
+      }
+      /* petit reflet laiton au fond du réceptacle (contact femelle) */
+      .port-slot::after {
+        content: "";
+        position: absolute;
+        inset: 3px 4px;
+        border-radius: 1px;
+        background: linear-gradient(
+          90deg,
+          var(--brass-shadow),
+          var(--brass-lo)
+        );
+        opacity: 0.5;
+      }
+      /* vis de fixation du port */
+      .port-screw {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(45deg, #555044, #14110c);
+        box-shadow: inset 1px 1px 1px rgb(255 255 255/0.2);
+      }
+      .port-screw::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 1.5px;
+        background: #000;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      .port-screw.top {
+        top: -16px;
+      }
+      .port-screw.bot {
+        bottom: -16px;
+      }
+
+      /* ---- MODULE + languette mâle ---- */
+      .module {
+        position: relative;
+        z-index: 1;
+        width: 300px;
+        height: 300px;
+        border-radius: var(--radius-lg);
+        background: radial-gradient(
+          120% 105% at 60% 0%,
+          var(--stop-casing-1),
+          var(--stop-casing-3)
+        );
+        box-shadow: 0 20px 46px rgb(0 0 0/0.55);
+        display: flex;
+        align-items: center;
+        padding: 18px 18px 18px 30px;
+        margin-left: -6px;
+        transition:
+          transform 0.5s cubic-bezier(0.5, 0, 0.2, 1),
+          opacity 0.3s;
+      }
+      .rig:not(.on) .module {
+        transform: translateX(90px);
+        opacity: 0;
+      }
+
+      /* la languette mâle qui dépasse à gauche du module */
+      .plug {
+        position: absolute;
+        left: -26px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 28px;
+        height: 158px;
+        border-radius: 4px 2px 2px 4px;
+        z-index: 0;
+        background: linear-gradient(
+          90deg,
+          #3a352b 0%,
+          #2a2620 60%,
+          #211d16 100%
+        );
+        box-shadow:
+          -3px 3px 6px rgb(0 0 0/0.5),
+          inset 0 1px 1px rgb(255 255 255/0.18),
+          inset 0 -2px 3px rgb(0 0 0/0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+        padding: 0 6px;
+      }
+      /* les 3 broches mâles laiton — MÊME pas que les réceptacles femelles */
+      .pin {
+        height: 20px;
+        border-radius: 2px;
+        background: linear-gradient(
+          180deg,
+          var(--brass-hi),
+          var(--brass) 45%,
+          var(--brass-lo)
+        );
+        box-shadow:
+          inset 0 1px 1px rgb(255 255 255/0.5),
+          inset 0 -2px 2px var(--brass-shadow),
+          0 0 4px rgb(201 163 90/0.4);
+        /* la broche dépasse à gauche pour entrer dans le port */
+        margin-left: -14px;
+        width: calc(100% + 14px);
+      }
+
+      .m-inner {
+        flex: 1;
+        height: 100%;
+        border-radius: var(--radius-md);
+        padding: 16px;
+        background: linear-gradient(
+          160deg,
+          var(--stop-casing-1),
+          var(--stop-casing-3)
+        );
+        box-shadow:
+          0 0 0 1px rgb(50 45 35/0.3),
+          -4px 5px 2px rgb(0 0 0/0.5),
+          var(--sh-bevel-top);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .m-inner b {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+      }
+      .m-screen {
+        flex: 1;
+        border-radius: var(--radius-md);
+        background: var(--stop-lcd-dark-0);
+        box-shadow: var(--sh-hollow-top-deep);
+        padding: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--color-on-lcd-dark);
+      }
+
+      /* LED "link" sur la home : verte quand connecté */
+      .link-led {
+        position: absolute;
+        bottom: 18px;
+        left: 22px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: var(--color-ink-faint);
+      }
+      .link-led .d {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 40% 32%, #798068, #494e3e 70%);
+        box-shadow: inset 0 -2px 3px rgb(0 0 0/0.5);
+        transition: 0.3s;
+      }
+      .rig.on .link-led .d {
+        background: radial-gradient(
+          circle at 40% 32%,
+          var(--color-led-core),
+          var(--color-led) 55%,
+          var(--color-led-rim)
+        );
+        box-shadow: var(--sh-glow-led);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hint">
+      le port femelle est gravé dans le flanc de la home — clique pour enficher
+      le module
+    </div>
+    <button class="toggle" id="tg">BRANCHER / DÉBRANCHER</button>
+
+    <div class="rig on" id="rig">
+      <div class="home-edge">
+        <span class="home-label">DAWN-01</span>
+        <div class="port">
+          <div class="port-slot"></div>
+          <div class="port-slot"></div>
+          <div class="port-slot"></div>
+        </div>
+        <div class="link-led"><span class="d"></span>LINK</div>
+      </div>
+
+      <div class="module">
+        <span class="plug">
+          <span class="pin"></span><span class="pin"></span
+          ><span class="pin"></span>
+        </span>
+        <div class="m-inner">
+          <b>YT EXTRACTOR</b>
+          <div class="m-screen">// module connected<br />~$ ready</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const rig = document.getElementById("rig");
+      document
+        .getElementById("tg")
+        .addEventListener("click", () => rig.classList.toggle("on"));
+    </script>
+  </body>
+</html>

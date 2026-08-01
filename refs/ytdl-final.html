@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YTDL — module final</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stop-casing-0:#beb79e;--stop-casing-1:#b1aa90;--stop-casing-2:#a09a7e;--stop-casing-3:#8b846b;
+  --stop-bezel-0:#453f34;--stop-bezel-1:#211d16;--stop-bezel-2:#1b1712;--stop-bezel-3:#141009;
+  --stop-key-0:#b7b3a0;--stop-key-1:#a5a18d;--stop-key-on-0:#8fdcb6;--stop-key-on-1:#6cc59d;
+  --stop-recess-0:#96938a;--stop-recess-1:#a7a49b;--stop-darkkey-0:#38362f;--stop-darkkey-1:#14110a;
+  --stop-lcd-0:#a5a299;--stop-lcd-1:#b1aea4;--stop-lcd-dark-0:#1c1a15;--stop-lcd-dark-1:#2e2b23;
+  --stop-knob-0:#3c3c3c;--stop-knob-1:#282828;--stop-knob-2:#161616;--stop-knob-3:#0c0c0c;
+  --color-casing:var(--stop-casing-0);--color-ridge:#2c2820;
+  --color-ink:#33312a;--color-ink-strong:#2d2b24;--color-ink-soft:#45423a;
+  --color-ink-muted:#38362d;--color-ink-faint:#514e3b;
+  --color-on-lcd:#33312c;--color-on-lcd-dark:#d7d3c6;--color-on-key:#2e2c24;
+  --color-on-key-on:#1d4a38;--color-on-darkkey:#e8e4d6;--color-on-chan:#8f8b7c;
+  --color-crt:#39ff14;--color-burnt:#c94e1e;--color-amber:#e8a020;--color-alert:#cc1a1a;
+  --color-led-core:#f2ffc4;--color-led:#b3e94e;--color-led-rim:#558f18;
+  --color-led-off:#798068;--color-led-off-rim:#494e3e;
+  --radius-xs:5px;--radius-sm:7px;--radius-md:9px;--radius-lg:13px;--radius-xl:26px;
+  --sh-contact-near:-3px 4px 3px rgb(0 0 0/.4);--sh-contact-mid:-4px 5px 2px rgb(0 0 0/.5);
+  --sh-contact-far:-6px 11px 13px rgb(0 0 0/.42);
+  --sh-penumbra-near:-3px 4px 6px rgb(0 0 0/.22);--sh-penumbra-mid:-6px 9px 14px rgb(0 0 0/.3);
+  --sh-penumbra-far:-2px 4px 5px rgb(0 0 0/.35);
+  --sh-bevel-top:inset 0 2px 2px rgb(255 255 255/.45);--sh-bevel-bottom:inset 0 -5px 7px rgb(0 0 0/.22);
+  --sh-bevel-top-soft:inset 0 1px 1px rgb(255 255 255/.12);
+  --sh-bevel-top-knob:inset 0 2px 2px rgb(255 255 255/.14);--sh-bevel-bottom-knob:inset 0 -4px 6px rgb(0 0 0/.55);
+  --sh-hollow-top:inset 0 3px 5px rgb(0 0 0/.35);--sh-hollow-top-deep:inset 0 3px 6px rgb(0 0 0/.7);
+  --sh-hollow-lip:inset 0 -1px 1px rgb(255 255 255/.3);
+  --sh-sliver:0 1px 0 rgb(255 255 255/.4);--sh-sliver-soft:0 1px 0 rgb(255 255 255/.25);
+  --sh-hairline:0 0 0 1px rgb(50 45 35/.3);--sh-glow-led:0 0 10px rgb(170 235 80/.85);
+  --sh-glow-key-on:0 0 12px rgb(120 210 170/.4);
+  --shadow-pose:var(--sh-contact-mid),var(--sh-penumbra-mid);
+  --shadow-bombe:var(--sh-hairline),var(--sh-contact-near),var(--sh-bevel-top),var(--sh-bevel-bottom);
+  --shadow-bombe-knob:var(--sh-contact-far),var(--sh-penumbra-far),var(--sh-bevel-top-knob),var(--sh-bevel-bottom-knob);
+  --shadow-creuse:var(--sh-hollow-top),var(--sh-hollow-lip),var(--sh-sliver);
+  --shadow-creuse-profond:var(--sh-hollow-top-deep),var(--sh-sliver-soft);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;padding:40px;display:flex;gap:30px;flex-wrap:wrap;justify-content:center;
+  align-items:flex-start;background:#26241f;font-family:"Space Grotesk",sans-serif;}
+.wrap{display:flex;flex-direction:column;gap:10px;}
+.wrap-tag{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:1.5px;
+  color:#b8b09a;text-transform:uppercase;padding-left:4px;}
+
+/* module */
+.ydl{width:420px;border-radius:var(--radius-lg);padding:11px;
+  background:radial-gradient(125% 105% at 66% 0%,var(--stop-casing-0),var(--stop-casing-1) 55%,var(--stop-casing-3));
+  box-shadow:0 20px 46px rgb(0 0 0/.5);display:flex;flex-direction:column;gap:11px;}
+.ydl-inner{border-radius:var(--radius-lg);padding:16px;
+  background:linear-gradient(160deg,var(--stop-casing-1),var(--stop-casing-3));
+  box-shadow:var(--sh-hairline),var(--shadow-pose),var(--sh-bevel-top);
+  display:flex;flex-direction:column;gap:14px;}
+
+/* topbar + retour */
+.topbar{display:flex;align-items:center;gap:10px;}
+.back{border:0;cursor:pointer;font:inherit;width:34px;height:28px;border-radius:var(--radius-sm);
+  display:grid;place-items:center;font-size:14px;color:var(--color-on-key);
+  background:linear-gradient(var(--stop-key-0),var(--stop-key-1));box-shadow:var(--shadow-bombe);}
+.back:active{box-shadow:var(--sh-hollow-top);}
+.name{font-size:12px;font-weight:700;letter-spacing:1.6px;color:var(--color-ink);}
+.stat{margin-left:auto;display:flex;align-items:center;gap:7px;
+  font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--color-ink-muted);}
+.led{width:11px;height:11px;border-radius:50%;flex:none;}
+.led-off{background:radial-gradient(circle at 40% 32%,var(--color-led-off),var(--color-led-off-rim) 70%);box-shadow:inset 0 -2px 3px rgb(0 0 0/.5);}
+.led-on{background:radial-gradient(circle at 40% 32%,var(--color-led-core),var(--color-led) 55%,var(--color-led-rim));box-shadow:var(--sh-glow-led),inset 0 -2px 3px rgb(0 0 0/.25);}
+.led-blink{animation:blink 1s step-end infinite}@keyframes blink{50%{opacity:.3}}
+
+/* URL LCD */
+.url{width:100%;border-radius:var(--radius-md);padding:9px 13px;
+  background:linear-gradient(var(--stop-lcd-dark-0),var(--stop-lcd-dark-1));
+  box-shadow:var(--shadow-creuse-profond);color:var(--color-on-lcd-dark);
+  font-family:"IBM Plex Mono",monospace;font-size:12px;border:0;outline:none;}
+.url::placeholder{color:var(--color-on-chan);}
+
+/* ---- rangée réglages : switch format + extract ---- */
+.settings{display:flex;align-items:flex-end;gap:18px;}
+
+/* switch rotatif 2 positions */
+.fmt{display:flex;flex-direction:column;align-items:center;gap:7px;}
+.fmt .cap{font-size:9px;font-weight:700;letter-spacing:1.3px;color:var(--color-ink-muted);}
+.fmt-body{display:flex;align-items:center;gap:9px;}
+.fmt-pos{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:700;letter-spacing:1px;
+  color:var(--color-ink-faint);transition:color .15s;}
+.fmt-pos.act{color:var(--color-on-key-on);text-shadow:0 0 6px rgb(120 210 170/.5);}
+.rot{width:50px;height:50px;border-radius:50%;position:relative;cursor:pointer;flex:none;
+  background:radial-gradient(circle at 50% 22%,var(--stop-knob-0),var(--stop-knob-1) 40%,var(--stop-knob-2) 80%,var(--stop-knob-3));
+  box-shadow:var(--shadow-bombe-knob);transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.rot::before{content:"";position:absolute;top:8%;left:50%;width:5px;height:30%;transform:translateX(-50%);
+  border-radius:3px;background:linear-gradient(#f0f0f0,#b9b9b9);}
+/* deux crans gravés */
+.rot-notch{position:absolute;width:3px;height:3px;border-radius:50%;background:rgb(50 45 35/.5);}
+
+/* extract */
+.extract{margin-left:auto;border:0;cursor:pointer;font:inherit;padding:0 26px;height:40px;
+  border-radius:var(--radius-lg);background:linear-gradient(#d9622f,#a03d18);color:#fff2ea;
+  font-size:13px;font-weight:700;letter-spacing:1.6px;
+  box-shadow:-3px 4px 3px rgb(0 0 0/.42),inset 0 1px 1px rgb(255 200 170/.4),
+  inset 0 -4px 6px rgb(0 0 0/.4),0 0 20px rgb(201 78 30/.4);}
+.extract:active{box-shadow:var(--sh-hollow-top-deep);}
+.extract.dim{background:linear-gradient(var(--stop-darkkey-0),var(--stop-darkkey-1));
+  color:var(--color-on-darkkey);box-shadow:-3px 4px 3px rgb(0 0 0/.42),inset 0 1px 1px rgb(255 255 255/.2),inset 0 -4px 6px rgb(0 0 0/.5);
+  opacity:.55;cursor:not-allowed;}
+
+/* ---- fader horizontal qualité ---- */
+.qual{display:flex;flex-direction:column;gap:8px;transition:opacity .2s;}
+.qual.off{opacity:.35;pointer-events:none;filter:saturate(.4);}
+.qual-head{display:flex;justify-content:space-between;align-items:baseline;}
+.qual-head .cap{font-size:9px;font-weight:700;letter-spacing:1.3px;color:var(--color-ink-muted);}
+.qual-head .val{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:700;color:var(--color-ink-strong);}
+.hrail{position:relative;height:30px;border-radius:var(--radius-sm);
+  background:linear-gradient(#2a2620,#3a352b);box-shadow:var(--sh-hollow-top-deep),var(--sh-sliver-soft);
+  display:flex;align-items:center;padding:0 15px;}
+/* fente horizontale */
+.hrail::before{content:"";position:absolute;left:15px;right:15px;height:6px;border-radius:3px;
+  background:#0b0906;box-shadow:inset 0 0 3px rgb(0 0 0/.9);}
+/* crans de qualité */
+.hrail-ticks{position:absolute;left:15px;right:15px;display:flex;justify-content:space-between;}
+.hrail-ticks i{width:1px;height:11px;background:rgb(255 255 255/.28);}
+/* poignée horizontale */
+.hhandle{position:absolute;width:26px;height:40px;z-index:2;border-radius:4px;cursor:grab;
+  background:linear-gradient(#e8dcc0 0%,#c9bd9f 44%,#b4a884 52%,#d8cbac 100%);
+  box-shadow:-3px 4px 5px rgb(0 0 0/.5),inset 0 1px 1px rgb(255 255 255/.7),inset 0 -2px 3px rgb(0 0 0/.35);}
+.hhandle::before{content:"";position:absolute;left:50%;top:6px;bottom:6px;width:3px;transform:translateX(-50%);
+  border-radius:2px;background:#c94e1e;box-shadow:0 0 5px rgb(201 78 30/.6);}
+.qual-scale{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;
+  font-size:8px;color:var(--color-ink-faint);padding:0 8px;}
+
+/* ---- jauge de progression : LCD qui s'allume ---- */
+.prog{border-radius:var(--radius-md);padding:12px 14px;
+  background:linear-gradient(var(--stop-lcd-dark-0),var(--stop-lcd-dark-1));
+  box-shadow:var(--shadow-creuse-profond);display:flex;flex-direction:column;gap:9px;
+  font-family:"IBM Plex Mono",monospace;}
+.prog-title{font-size:11px;color:var(--color-on-lcd-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prog-bar{display:flex;align-items:center;gap:11px;}
+.ptrack{flex:1;height:8px;border-radius:4px;background:#0b0906;box-shadow:inset 0 1px 3px rgb(0 0 0/.9);overflow:hidden;}
+.pfill{height:100%;border-radius:4px;background:linear-gradient(90deg,#1c7a0c,var(--color-crt));
+  box-shadow:0 0 8px rgb(57 255 20/.6);transition:width .4s ease;}
+.ppct{font-size:13px;font-weight:700;color:var(--color-crt);min-width:44px;text-align:right;}
+.prog-meta{display:flex;gap:18px;font-size:10px;color:var(--color-on-chan);}
+.prog-meta b{color:var(--color-amber);margin-right:5px;}
+</style>
+</head>
+<body>
+
+<!-- IDLE, MP4 (fader actif) -->
+<div class="wrap">
+  <div class="wrap-tag">idle · mp4 → fader qualité actif</div>
+  <div class="ydl"><div class="ydl-inner">
+    <div class="topbar">
+      <button class="back">◂</button><span class="name">YT EXTRACTOR</span>
+      <span class="stat"><span class="led led-off"></span>IDLE</span>
+    </div>
+    <input class="url" value="https://youtu.be/dQw4w9WgXcQ">
+    <div class="settings">
+      <div class="fmt">
+        <span class="cap">FORMAT</span>
+        <div class="fmt-body">
+          <span class="fmt-pos">MP3</span>
+          <div class="rot" style="transform:rotate(38deg)">
+            <span class="rot-notch" style="top:12px;left:9px"></span>
+            <span class="rot-notch" style="top:12px;right:9px"></span>
+          </div>
+          <span class="fmt-pos act">MP4</span>
+        </div>
+      </div>
+      <button class="extract">EXTRACT</button>
+    </div>
+    <div class="qual">
+      <div class="qual-head"><span class="cap">QUALITY</span><span class="val">1080p</span></div>
+      <div class="hrail">
+        <div class="hrail-ticks"><i></i><i></i><i></i><i></i></div>
+        <div class="hhandle" style="left:58%"></div>
+      </div>
+      <div class="qual-scale"><span>480</span><span>720</span><span>1080</span><span>BEST</span></div>
+    </div>
+  </div></div>
+</div>
+
+<!-- DOWNLOADING, MP3 (fader off) -->
+<div class="wrap">
+  <div class="wrap-tag">downloading · mp3 → fader désactivé + jauge</div>
+  <div class="ydl"><div class="ydl-inner">
+    <div class="topbar">
+      <button class="back">◂</button><span class="name">YT EXTRACTOR</span>
+      <span class="stat"><span class="led led-on led-blink"></span>DOWNLOADING</span>
+    </div>
+    <input class="url" value="https://youtu.be/dQw4w9WgXcQ" disabled>
+    <div class="settings">
+      <div class="fmt">
+        <span class="cap">FORMAT</span>
+        <div class="fmt-body">
+          <span class="fmt-pos act">MP3</span>
+          <div class="rot" style="transform:rotate(-38deg)">
+            <span class="rot-notch" style="top:12px;left:9px"></span>
+            <span class="rot-notch" style="top:12px;right:9px"></span>
+          </div>
+          <span class="fmt-pos">MP4</span>
+        </div>
+      </div>
+      <button class="extract dim">RUNNING</button>
+    </div>
+    <div class="qual off">
+      <div class="qual-head"><span class="cap">QUALITY</span><span class="val">—</span></div>
+      <div class="hrail">
+        <div class="hrail-ticks"><i></i><i></i><i></i><i></i></div>
+        <div class="hhandle" style="left:0%"></div>
+      </div>
+      <div class="qual-scale"><span>480</span><span>720</span><span>1080</span><span>BEST</span></div>
+    </div>
+    <div class="prog">
+      <div class="prog-title">Rick Astley - Never Gonna Give You Up</div>
+      <div class="prog-bar">
+        <div class="ptrack"><div class="pfill" style="width:62%"></div></div>
+        <span class="ppct">62%</span>
+      </div>
+      <div class="prog-meta"><span><b>SPD</b>2.4 MB/s</span><span><b>ETA</b>00:14</span></div>
+    </div>
+  </div></div>
+</div>
+
+</body>
+</html>

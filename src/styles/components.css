@@ -1,0 +1,1930 @@
+/* =============================================================================
+   DAWN-01 — styles de composants
+   Regroupe tout le CSS spécifique aux composants (préfixé par composant,
+   ex. .terminalShell-*, .ytdlService-*) pour éviter d'avoir un fichier .css
+   par composant. Les tokens/couleurs sont dans src/index.css, les classes
+   génériques réutilisables (.panel, .lcd, .knob...) dans styles/classes.css.
+   ============================================================================= */
+
+@layer components {
+  /* -----------------------------------------------------------------------------
+   PostIt — remplace QuoteSheet sur la home (DA maquette v7)
+   ----------------------------------------------------------------------------- */
+  .postIt-wrap {
+    position: absolute;
+    z-index: 6;
+    right: 34px;
+    bottom: 16px;
+    filter: drop-shadow(-7px 11px 9px rgb(0 0 0 / 0.45))
+      drop-shadow(-2px 3px 2px rgb(0 0 0 / 0.32));
+    transform: rotate(-3deg);
+    pointer-events: none;
+  }
+
+  .postIt-note {
+    width: 196px;
+    min-height: 186px;
+    padding: 28px 19px 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background:
+      radial-gradient(
+        120% 90% at 82% 4%,
+        rgb(255 255 255 / 0.34),
+        transparent 46%
+      ),
+      linear-gradient(168deg, #f6e595 0%, #f0da80 48%, #e3ca6b 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 78% 100%, 0 100%);
+  }
+
+  .postIt-note::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 44px;
+    height: 25px;
+    background: linear-gradient(214deg, #cbb257 0%, #b89e46 46%, #a48c3c 100%);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+
+  .postIt-tape {
+    position: absolute;
+    z-index: 7;
+    top: -13px;
+    left: 50%;
+    width: 80px;
+    height: 26px;
+    transform: translateX(-50%) rotate(-1.8deg);
+    background: linear-gradient(
+      172deg,
+      rgb(255 255 255 / 0.46),
+      rgb(232 228 208 / 0.3)
+    );
+    box-shadow:
+      0 1px 3px rgb(0 0 0 / 0.28),
+      inset 0 1px 0 rgb(255 255 255 / 0.5);
+    clip-path: polygon(3% 0, 97% 4%, 100% 96%, 0 100%);
+  }
+
+  .postIt-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #9a8a43;
+    margin-bottom: 9px;
+    font-family: var(--font-mono);
+  }
+
+  .postIt-quote {
+    font-family: var(--font-hand);
+    font-size: 22px;
+    line-height: 1.24;
+    color: #3d3a22;
+  }
+
+  .postIt-author {
+    display: block;
+    margin-top: auto;
+    padding-top: 9px;
+    font-family: var(--font-hand);
+    font-size: 15px;
+    color: #7c7040;
+    font-style: normal;
+    text-align: right;
+  }
+
+  @media (max-width: 1180px) {
+    .postIt-wrap {
+      position: static;
+      transform: rotate(-1.5deg);
+      margin-top: 16px;
+    }
+  }
+
+  /* -----------------------------------------------------------------------------
+   HomeBottomBar — bande basse Deploy/Network/Storage/Range (DA maquette v7)
+   ----------------------------------------------------------------------------- */
+  .homeBottomBar-bottom {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgb(50 45 35 / 0.18);
+  }
+
+  .homeBottomBar-zone {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .homeBottomBar-zone.homeBottomBar-grow {
+    flex: 1;
+  }
+
+  .homeBottomBar-card {
+    flex: 1;
+    border-radius: var(--radius-lg);
+    padding: 11px 14px;
+    background: linear-gradient(var(--stop-card-0), var(--stop-card-1));
+    box-shadow:
+      inset 0 2px 3px rgb(255 255 255 / 0.35),
+      inset 0 -2px 4px rgb(0 0 0 / 0.2),
+      -3px 4px 6px rgb(0 0 0 / 0.22);
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .homeBottomBar-keypad {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 6px;
+  }
+
+  /* -----------------------------------------------------------------------------
+   HomeNavbar — bandeau intégré au panel de la home (DA maquette v7)
+   ----------------------------------------------------------------------------- */
+  .homeNavbar-navbar {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgb(50 45 35 / 0.18);
+  }
+
+  .homeNavbar-brand {
+    flex: none;
+  }
+
+  .homeNavbar-brand h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .homeNavbar-brand p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--color-ink-soft);
+    margin-top: 5px;
+  }
+
+  .homeNavbar-stats {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    margin-left: 8px;
+    padding-left: 26px;
+    border-left: 1px solid rgb(50 45 35 / 0.22);
+  }
+
+  .homeNavbar-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .homeNavbar-field > span {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: var(--color-ink-muted);
+  }
+
+  .homeNavbar-field > em {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-ink-strong);
+    letter-spacing: 0.5px;
+  }
+
+  .homeNavbar-lcd {
+    font-size: 13px !important;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+  }
+
+  .homeNavbar-end {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .homeNavbar-date {
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    padding: 5px 18px;
+    border-radius: 3px;
+    color: #2c3626;
+    text-shadow:
+      0 1px 0 rgb(220 230 200 / 0.35),
+      0 -1px 1px rgb(0 0 0 / 0.42);
+    background: linear-gradient(158deg, #a8ab7e 0%, #8b9166 46%, #6f764c 100%);
+    box-shadow:
+      -2px 3px 4px rgb(0 0 0 / 0.4),
+      inset 0 1px 1px rgb(235 240 210 / 0.5),
+      inset 0 -2px 3px rgb(50 60 35 / 0.55),
+      inset 0 0 0 1px rgb(95 102 70 / 0.65);
+  }
+
+  .homeNavbar-date::before,
+  .homeNavbar-date::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at 38% 30%, #565e3c, #2c3220);
+    box-shadow:
+      inset 0 1px 1px rgb(235 240 210 / 0.3),
+      0 1px 0 rgb(255 255 255 / 0.15);
+  }
+
+  .homeNavbar-date::before {
+    left: 6px;
+  }
+
+  .homeNavbar-date::after {
+    right: 6px;
+  }
+
+  /* -----------------------------------------------------------------------------
+   ServiceGrid
+   ----------------------------------------------------------------------------- */
+  .serviceGrid-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .serviceGrid-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .serviceGrid-services {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .serviceGrid-padCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .serviceGrid-pad {
+    width: 100%;
+    aspect-ratio: 185 / 187;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    border-radius: var(--radius-sm);
+    padding: 7px 8px 14px;
+    background: linear-gradient(
+      var(--stop-bezel-0) 0%,
+      var(--stop-bezel-1) 10%,
+      var(--stop-bezel-2) 82%,
+      var(--stop-bezel-3) 100%
+    );
+    box-shadow:
+      -4px 5px 2px rgb(0 0 0 / 0.5),
+      -6px 9px 14px rgb(0 0 0 / 0.3),
+      inset 0 1px 1px rgb(255 255 255 / 0.12);
+  }
+
+  .serviceGrid-pad.serviceGrid-unknown {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  .serviceGrid-padRidge {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-xs);
+    padding: 5px;
+    background: var(--color-ridge);
+    box-shadow:
+      inset 0 1px 1px rgb(255 255 255 / 0.1),
+      inset 0 -1px 2px rgb(0 0 0 / 0.5);
+  }
+
+  .serviceGrid-padFace {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+    background: radial-gradient(
+      105% 95% at 50% 38%,
+      #843f33 0%,
+      #7d3a31 55%,
+      #5d3431 100%
+    );
+    box-shadow:
+      inset 0 0 5px rgb(30 8 0 / 0.45),
+      inset 0 0 28px rgb(30 8 0 / 0.35);
+    color: #43211b;
+  }
+
+  .serviceGrid-pad.serviceGrid-online {
+    box-shadow:
+      -4px 5px 2px rgb(0 0 0 / 0.5),
+      -6px 9px 14px rgb(0 0 0 / 0.3),
+      0 0 30px rgb(250 110 55 / 0.35),
+      inset 0 1px 1px rgb(255 255 255 / 0.12);
+  }
+
+  .serviceGrid-pad.serviceGrid-online .serviceGrid-padRidge {
+    background: #3d2013;
+  }
+
+  .serviceGrid-pad.serviceGrid-online .serviceGrid-padFace {
+    background: radial-gradient(
+      66% 82% at 50% 44%,
+      #fddca7 0%,
+      #ff9b6a 55%,
+      #82362e 100%
+    );
+    box-shadow:
+      inset 0 0 5px rgb(130 54 46 / 0.55),
+      inset 0 0 27px rgb(130 54 46 / 0.3);
+    color: #56241a;
+  }
+
+  .serviceGrid-chan {
+    width: 100%;
+    height: 22px;
+    border-radius: var(--radius-xs);
+    background: linear-gradient(#302d25, #3b382f);
+    color: var(--color-on-chan);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    display: grid;
+    place-items: center;
+    box-shadow:
+      inset 0 2px 4px rgb(0 0 0 / 0.55),
+      0 1px 0 rgb(255 255 255 / 0.25);
+  }
+
+  .serviceGrid-panel {
+    border: 0.5px solid var(--color-hairline);
+    border-radius: 6px;
+    overflow: hidden;
+    animation: sg-panel-in 0.25s ease;
+  }
+
+  @keyframes sg-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* -----------------------------------------------------------------------------
+   YtdlService
+   ----------------------------------------------------------------------------- */
+  .ytdlService-module {
+    width: 100%;
+    max-width: 420px;
+    margin-inline: auto;
+    border-radius: var(--radius-lg);
+    padding: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    background: radial-gradient(
+      125% 105% at 66% 0%,
+      var(--stop-casing-0),
+      var(--stop-casing-1) 55%,
+      var(--stop-casing-3)
+    );
+    box-shadow: 0 20px 46px rgb(0 0 0 / 0.5);
+  }
+
+  .ytdlService-inner {
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: linear-gradient(
+      160deg,
+      var(--stop-casing-1),
+      var(--stop-casing-3)
+    );
+    box-shadow: var(--sh-hairline), var(--shadow-pose), var(--sh-bevel-top);
+  }
+
+  /* Bandeau titre + retour + statut */
+  .ytdlService-topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ytdlService-back {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    width: 34px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    color: var(--color-on-key);
+    background: linear-gradient(var(--stop-key-0), var(--stop-key-1));
+    box-shadow: var(--shadow-bombe);
+  }
+
+  .ytdlService-back:active {
+    box-shadow: var(--sh-hollow-top);
+  }
+
+  .ytdlService-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    color: var(--color-ink);
+  }
+
+  .ytdlService-stat {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--color-ink-muted);
+  }
+
+  /* URL — écran LCD sombre */
+  .ytdlService-url {
+    width: 100%;
+    border-radius: var(--radius-md);
+    padding: 9px 13px;
+    background: linear-gradient(var(--stop-lcd-dark-0), var(--stop-lcd-dark-1));
+    box-shadow: var(--shadow-creuse-profond);
+    color: var(--color-on-lcd-dark);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border: 0;
+    outline: none;
+  }
+
+  .ytdlService-url::placeholder {
+    color: var(--color-on-chan);
+  }
+
+  .ytdlService-url:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Rangée réglages : switch format rotatif + extract */
+  .ytdlService-settings {
+    display: flex;
+    align-items: flex-end;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .ytdlService-cap {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    color: var(--color-ink-muted);
+  }
+
+  .ytdlService-fmt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .ytdlService-fmtBody {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .ytdlService-fmtPos {
+    border: 0;
+    background: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-ink-faint);
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+
+  .ytdlService-fmtPos:disabled {
+    cursor: not-allowed;
+  }
+
+  .ytdlService-fmtPos.ytdlService-active {
+    color: var(--color-on-key-on);
+    text-shadow: 0 0 6px rgb(120 210 170 / 0.5);
+  }
+
+  .ytdlService-rot {
+    width: 50px;
+    height: 50px;
+    border: 0;
+    padding: 0;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    flex: none;
+    background: radial-gradient(
+      circle at 50% 22%,
+      var(--stop-knob-0),
+      var(--stop-knob-1) 40%,
+      var(--stop-knob-2) 80%,
+      var(--stop-knob-3)
+    );
+    box-shadow: var(--shadow-bombe-knob);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .ytdlService-rot:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .ytdlService-rot::before {
+    content: "";
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    width: 5px;
+    height: 30%;
+    transform: translateX(-50%);
+    border-radius: 3px;
+    background: linear-gradient(
+      var(--stop-knob-pointer-0),
+      var(--stop-knob-pointer-1)
+    );
+  }
+
+  .ytdlService-rotNotch {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgb(50 45 35 / 0.5);
+  }
+
+  .ytdlService-extract {
+    margin-left: auto;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    padding: 0 26px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(#d9622f, #a03d18);
+    color: #fff2ea;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    box-shadow:
+      -3px 4px 3px rgb(0 0 0 / 0.42),
+      inset 0 1px 1px rgb(255 200 170 / 0.4),
+      inset 0 -4px 6px rgb(0 0 0 / 0.4),
+      0 0 20px rgb(201 78 30 / 0.4);
+  }
+
+  .ytdlService-extract:active {
+    box-shadow: var(--sh-hollow-top-deep);
+  }
+
+  .ytdlService-extract.ytdlService-dim {
+    background: linear-gradient(var(--stop-darkkey-0), var(--stop-darkkey-1));
+    color: var(--color-on-darkkey);
+    box-shadow:
+      -3px 4px 3px rgb(0 0 0 / 0.42),
+      inset 0 1px 1px rgb(255 255 255 / 0.2),
+      inset 0 -4px 6px rgb(0 0 0 / 0.5);
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* Fader horizontal qualité (mp4 uniquement) */
+  .ytdlService-qual {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: opacity 0.2s;
+  }
+
+  .ytdlService-qual.ytdlService-off {
+    opacity: 0.35;
+    pointer-events: none;
+    filter: saturate(0.4);
+  }
+
+  .ytdlService-qualHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .ytdlService-qualVal {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-ink-strong);
+  }
+
+  .ytdlService-hrail {
+    position: relative;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(#2a2620, #3a352b);
+    box-shadow: var(--sh-hollow-top-deep), var(--sh-sliver-soft);
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+  }
+
+  .ytdlService-hrail::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    height: 6px;
+    border-radius: 3px;
+    background: #0b0906;
+    box-shadow: inset 0 0 3px rgb(0 0 0 / 0.9);
+  }
+
+  .ytdlService-hrailTicks {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ytdlService-hrailTicks i {
+    display: block;
+    width: 1px;
+    height: 11px;
+    background: rgb(255 255 255 / 0.28);
+  }
+
+  .ytdlService-hhandle {
+    position: absolute;
+    width: 26px;
+    height: 40px;
+    z-index: 2;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: left 0.2s ease;
+    background: linear-gradient(
+      #e8dcc0 0%,
+      #c9bd9f 44%,
+      #b4a884 52%,
+      #d8cbac 100%
+    );
+    box-shadow:
+      -3px 4px 5px rgb(0 0 0 / 0.5),
+      inset 0 1px 1px rgb(255 255 255 / 0.7),
+      inset 0 -2px 3px rgb(0 0 0 / 0.35);
+  }
+
+  .ytdlService-hhandle::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background: #c94e1e;
+    box-shadow: 0 0 5px rgb(201 78 30 / 0.6);
+  }
+
+  .ytdlService-qualScale {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--color-ink-faint);
+    padding: 0 8px;
+  }
+
+  .ytdlService-qualScale button {
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+    padding: 2px 4px;
+  }
+
+  .ytdlService-qualScale button:disabled {
+    cursor: not-allowed;
+  }
+
+  .ytdlService-qualScale button.ytdlService-active {
+    color: var(--color-on-key-on);
+    font-weight: 700;
+  }
+
+  /* Jauge de progression */
+  .ytdlService-prog {
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    background: linear-gradient(var(--stop-lcd-dark-0), var(--stop-lcd-dark-1));
+    box-shadow: var(--shadow-creuse-profond);
+    font-family: var(--font-mono);
+  }
+
+  .ytdlService-progTitle {
+    font-size: 11px;
+    color: var(--color-on-lcd-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ytdlService-progBar {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .ytdlService-ptrack {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: #0b0906;
+    box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.9);
+    overflow: hidden;
+  }
+
+  .ytdlService-pfill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #1c7a0c, var(--color-crt));
+    box-shadow: 0 0 8px rgb(57 255 20 / 0.6);
+    transition: width 0.4s ease;
+  }
+
+  .ytdlService-pfill.ytdlService-error {
+    background: linear-gradient(90deg, #7a0c0c, var(--color-alert));
+    box-shadow: 0 0 8px rgb(204 26 26 / 0.6);
+  }
+
+  .ytdlService-ppct {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-crt);
+    min-width: 44px;
+    text-align: right;
+  }
+
+  .ytdlService-ppct.ytdlService-error {
+    color: var(--color-alert);
+  }
+
+  .ytdlService-progMeta {
+    display: flex;
+    gap: 18px;
+    font-size: 10px;
+    color: var(--color-on-chan);
+    flex-wrap: wrap;
+  }
+
+  .ytdlService-progMeta b {
+    color: var(--color-amber);
+    margin-right: 5px;
+  }
+
+  .ytdlService-errorMsg {
+    color: var(--color-alert);
+  }
+
+  .ytdlService-doneRow {
+    display: flex;
+    gap: 10px;
+    animation: ytdl-fade-in 0.2s ease;
+  }
+
+  @keyframes ytdl-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .ytdlService-saveBtn {
+    flex: 1;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    height: 34px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(#1c7a0c, #2e9e1a);
+    color: #eafbe0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    box-shadow:
+      -2px 3px 3px rgb(0 0 0 / 0.4),
+      inset 0 1px 1px rgb(255 255 255 / 0.25),
+      0 0 14px rgb(57 255 20 / 0.3);
+  }
+
+  .ytdlService-saveBtn:hover {
+    filter: brightness(1.08);
+  }
+
+  /* -----------------------------------------------------------------------------
+   PowerSwitch
+   ----------------------------------------------------------------------------- */
+  .powerSwitch-switch {
+    --scale: 0.3;
+    display: block;
+    background-color: black;
+    width: calc(150px * var(--scale));
+    height: calc(195px * var(--scale));
+    box-shadow:
+      0 0 calc(10px * var(--scale)) calc(2px * var(--scale)) rgba(0, 0, 0, 0.2),
+      0 0 calc(1px * var(--scale)) calc(2px * var(--scale)) black,
+      inset 0 calc(2px * var(--scale)) calc(2px * var(--scale))
+        calc(-2px * var(--scale)) white,
+      inset 0 0 calc(2px * var(--scale)) calc(15px * var(--scale)) #47434c,
+      inset 0 0 calc(2px * var(--scale)) calc(22px * var(--scale)) black;
+    border-radius: calc(5px * var(--scale));
+    padding: calc(20px * var(--scale));
+    perspective: calc(700px * var(--scale));
+  }
+
+  .powerSwitch-switch input {
+    display: none;
+  }
+
+  .powerSwitch-switch input:checked + .powerSwitch-button {
+    transform: translateZ(calc(20px * var(--scale))) rotateX(25deg);
+    box-shadow: 0 calc(-10px * var(--scale)) calc(20px * var(--scale)) #ff1818;
+  }
+
+  .powerSwitch-switch input:checked + .powerSwitch-button .powerSwitch-light {
+    animation: ps-flicker 0.2s infinite 0.3s;
+  }
+
+  .powerSwitch-switch input:checked + .powerSwitch-button .powerSwitch-shine {
+    opacity: 1;
+  }
+
+  .powerSwitch-switch input:checked + .powerSwitch-button .powerSwitch-shadow {
+    opacity: 0;
+  }
+
+  .powerSwitch-button {
+    display: block;
+    transition: all 0.3s cubic-bezier(1, 0, 1, 1);
+    transform-origin: center center calc(-20px * var(--scale));
+    transform: translateZ(calc(20px * var(--scale))) rotateX(-25deg);
+    transform-style: preserve-3d;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    background: linear-gradient(
+      #980000 0%,
+      #6f0000 30%,
+      #6f0000 70%,
+      #980000 100%
+    );
+    background-repeat: no-repeat;
+  }
+
+  .powerSwitch-button::before {
+    content: "";
+    background:
+      linear-gradient(
+          rgba(255, 255, 255, 0.8) 10%,
+          rgba(255, 255, 255, 0.3) 30%,
+          #650000 75%,
+          #320000
+        )
+        50% 50% / 97% 97%,
+      #b10000;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: calc(50px * var(--scale));
+    transform-origin: top;
+    transform: rotateX(-90deg);
+    position: absolute;
+    top: 0;
+  }
+
+  .powerSwitch-button::after {
+    content: "";
+    background-image: linear-gradient(#650000, #320000);
+    width: 100%;
+    height: calc(50px * var(--scale));
+    transform-origin: top;
+    transform: translateY(calc(50px * var(--scale))) rotateX(-90deg);
+    position: absolute;
+    bottom: 0;
+    box-shadow:
+      0 calc(50px * var(--scale)) calc(8px * var(--scale)) 0px black,
+      0 calc(80px * var(--scale)) calc(20px * var(--scale)) 0px
+        rgba(0, 0, 0, 0.5);
+  }
+
+  .powerSwitch-light {
+    opacity: 0;
+    animation: ps-light-off 1s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(#ffc97e, #ff1818 40%, transparent 70%);
+  }
+
+  .powerSwitch-dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+      transparent 30%,
+      rgba(101, 0, 0, 0.7) 70%
+    );
+    background-size: calc(10px * var(--scale)) calc(10px * var(--scale));
+  }
+
+  .powerSwitch-characters {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(white, white) 50% 20% / 5% 20%,
+      radial-gradient(
+          circle,
+          transparent 50%,
+          white 52%,
+          white 70%,
+          transparent 72%
+        )
+        50% 80% / 33% 25%;
+    background-repeat: no-repeat;
+  }
+
+  .powerSwitch-shine {
+    transition: all 0.3s cubic-bezier(1, 0, 1, 1);
+    opacity: 0.3;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(white, transparent 3%) 50% 50% / 97% 97%,
+      linear-gradient(
+          rgba(255, 255, 255, 0.5),
+          transparent 50%,
+          transparent 80%,
+          rgba(255, 255, 255, 0.5)
+        )
+        50% 50% / 97% 97%;
+    background-repeat: no-repeat;
+  }
+
+  .powerSwitch-shadow {
+    transition: all 0.3s cubic-bezier(1, 0, 1, 1);
+    opacity: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 70%, rgba(0, 0, 0, 0.8));
+    background-repeat: no-repeat;
+  }
+
+  @keyframes ps-flicker {
+    0% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes ps-light-off {
+    0% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0;
+    }
+  }
+
+  /* -----------------------------------------------------------------------------
+   TerminalControls
+   ----------------------------------------------------------------------------- */
+  .terminalControls-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: var(--radius-md);
+    padding: 6px 14px;
+    margin-top: 8px;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),
+      inset 0 -1px 0 rgb(0 0 0 / 0.12);
+  }
+
+  .terminalControls-divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgb(50 45 35 / 0.22);
+    flex-shrink: 0;
+  }
+
+  .terminalControls-spacer {
+    margin-left: auto;
+    text-align: right;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--color-ink-faint);
+    line-height: 1.6;
+  }
+
+  .terminalControls-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .terminalControls-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--color-ink-soft);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .terminalControls-vu {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .terminalControls-vuBars {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 18px;
+  }
+
+  .terminalControls-vuBar {
+    width: 5px;
+    border-radius: 1px;
+    transition:
+      height 0.08s ease,
+      background 0.08s ease;
+  }
+
+  .terminalControls-vuLabels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1px;
+  }
+
+  .terminalControls-vuLabels span {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    color: var(--color-ink-soft);
+  }
+
+  /* -----------------------------------------------------------------------------
+   TerminalShell
+   ----------------------------------------------------------------------------- */
+  .terminalShell-screenWrapper {
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    box-shadow:
+      var(--sh-hairline),
+      5px 5px 10px 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .terminalShell-terminalWrapper {
+    background: linear-gradient(
+      135deg,
+      var(--stop-bezel-0),
+      var(--stop-bezel-3)
+    );
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    position: relative;
+  }
+
+  /* Vitre recessée : encaisse le CRT dans le bezel, porte le reflet diagonal. */
+  .terminalShell-glass {
+    position: relative;
+    height: 100%;
+    min-height: 272px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(
+      138deg,
+      #423b31 0%,
+      #2b251b 42%,
+      #1a160d 78%,
+      #14110a 100%
+    );
+    box-shadow:
+      inset 0 3px 10px rgb(0 0 0 / 0.65),
+      inset 0 -1px 0 rgb(255 255 255 / 0.06);
+  }
+
+  .terminalShell-sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        122deg,
+        rgb(255 255 255 / 0.14) 0%,
+        rgb(255 255 255 / 0.055) 17%,
+        transparent 38%,
+        transparent 100%
+      ),
+      radial-gradient(
+        130% 70% at 18% -8%,
+        rgb(255 255 255 / 0.07),
+        transparent 62%
+      );
+  }
+
+  .terminalShell-terminal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-crt-glass);
+    color: var(--color-crt-text);
+    padding: 14px 16px;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.68;
+  }
+
+  .terminalShell-terminal::before {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+      linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.06),
+        rgba(0, 255, 0, 0.02),
+        rgba(0, 0, 255, 0.06)
+      );
+    background-size:
+      100% 2px,
+      3px 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .terminalShell-terminal::after {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 16, 16, 0.1);
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .terminalShell-terminal.terminalShell-isOn {
+    animation: ts-turn-on 0.55s cubic-bezier(0.755, 0.05, 0.855, 0.06) forwards;
+  }
+
+  .terminalShell-terminal.terminalShell-isOn::after {
+    animation: ts-flicker 0.15s infinite;
+  }
+
+  .terminalShell-terminal.terminalShell-isOff {
+    animation: ts-turn-off 0.55s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  .terminalShell-comment {
+    color: var(--color-crt-dim);
+  }
+
+  .terminalShell-orange {
+    color: var(--color-burnt);
+  }
+
+  .terminalShell-ivory {
+    color: var(--color-crt-text);
+  }
+
+  .terminalShell-green {
+    color: var(--color-crt);
+  }
+
+  .terminalShell-header {
+    background: var(--color-casing);
+    color: var(--color-ink);
+    border-radius: var(--radius-md);
+    padding: 4px 8px;
+    box-shadow: var(--color-casing) 0px 0px 5px 2px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .terminalShell-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .terminalShell-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 12px;
+    color: var(--color-crt-dim);
+    font-size: 10px;
+    opacity: 0.5;
+  }
+
+  .terminalShell-cursor {
+    color: var(--color-crt);
+    animation: ts-blink 1s step-end infinite;
+  }
+
+  .terminalShell-statusDot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .terminalShell-statusDot.terminalShell-online {
+    background: var(--color-crt);
+  }
+
+  .terminalShell-screw {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(45deg, #555, #111);
+    border-radius: 50%;
+    border: 1px solid #000;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+  }
+
+  .terminalShell-screw::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 2px;
+    background: #000;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .terminalShell-tl {
+    top: 15px;
+    left: 15px;
+  }
+  .terminalShell-tr {
+    top: 15px;
+    right: 15px;
+    transform: rotate(90deg);
+  }
+  .terminalShell-bl {
+    bottom: 15px;
+    left: 15px;
+    transform: rotate(180deg);
+  }
+  .terminalShell-br {
+    bottom: 15px;
+    right: 15px;
+    transform: rotate(270deg);
+  }
+
+  @keyframes ts-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Flicker approximé : la version SCSS générait 50 valeurs random() à la compilation.
+   Ici on fige une séquence "pseudo-random" plausible en dur. */
+  @keyframes ts-flicker {
+    0% {
+      opacity: 0.32;
+    }
+    10% {
+      opacity: 0.61;
+    }
+    20% {
+      opacity: 0.18;
+    }
+    30% {
+      opacity: 0.73;
+    }
+    40% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.09;
+    }
+    60% {
+      opacity: 0.55;
+    }
+    70% {
+      opacity: 0.27;
+    }
+    80% {
+      opacity: 0.68;
+    }
+    90% {
+      opacity: 0.15;
+    }
+    100% {
+      opacity: 0.44;
+    }
+  }
+
+  @keyframes ts-turn-on {
+    0% {
+      animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+      transform: scale(0, 0.0001) translate3d(0, 0, 0);
+      filter: brightness(50);
+    }
+    40% {
+      transform: scale(0.9, 0.001) translate3d(0, 0, 0);
+      filter: brightness(10);
+    }
+    100% {
+      transform: scale(1, 1) translate3d(0, 0, 0);
+      filter: brightness(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes ts-turn-off {
+    0% {
+      transform: scale(1, 0.9) translate3d(0, 0, 0);
+      filter: brightness(1);
+      opacity: 1;
+    }
+    60% {
+      transform: scale(0.9, 0.001) translate3d(0, 0, 0);
+      filter: brightness(10);
+    }
+    100% {
+      animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+      transform: scale(0, 0.0001) translate3d(0, 0, 0);
+      filter: brightness(50);
+    }
+  }
+
+  /* -----------------------------------------------------------------------------
+   Connecteur — prise femelle (ConnectorSocket) et module mâle (ConnectorPlug).
+   Extrait de public/mockups/connecteur-poc.html. Purement visuel : le
+   positionnement (quel bord, quelle prise, quelle phase d'animation) est du
+   ressort du futur Dock, pas de ces composants.
+   ----------------------------------------------------------------------------- */
+
+  .connectorSocket {
+    --connector-gold-hi: #e8c878;
+    --connector-gold: #c9a35a;
+    --connector-gold-low: #7a5a24;
+
+    position: relative;
+    width: 62px;
+    height: 100%;
+  }
+
+  .connectorSocket-back {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: 1;
+    width: 30px;
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    background: linear-gradient(
+      90deg,
+      #18191d 0 28%,
+      #292a2f 28% 72%,
+      #5b5c63 72% 100%
+    );
+    box-shadow:
+      5px 5px 8px rgb(0 0 0 / 0.38),
+      inset -2px 0 2px rgb(255 255 255 / 0.08);
+  }
+
+  .connectorSocket-back::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    bottom: 18px;
+    left: 2px;
+    width: 15px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #08090b, #17181c);
+    box-shadow:
+      inset 4px 0 5px rgb(0 0 0 / 0.9),
+      inset -1px 0 rgb(255 255 255 / 0.06);
+  }
+
+  .connectorSocket-contacts {
+    position: absolute;
+    z-index: 2;
+    top: 28px;
+    bottom: 28px;
+    left: 5px;
+    width: 7px;
+    opacity: 0.9;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 2px,
+      var(--connector-gold-hi) 2px 3px,
+      var(--connector-gold) 3px 6px,
+      var(--connector-gold-low) 6px 7px,
+      transparent 7px 10px
+    );
+    filter: drop-shadow(-1px 0 0 var(--connector-gold-low));
+  }
+
+  .connectorSocket-front {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 3;
+    width: 39px;
+    border-radius: var(--radius-sm) 2px 2px var(--radius-sm);
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 30px,
+        rgb(255 255 255 / 0.055) 30px 31px,
+        transparent 31px 61px
+      ),
+      linear-gradient(90deg, #25262a 0 62%, #3d3e44 62% 84%, #56575e 84% 100%);
+    box-shadow:
+      inset 2px 0 2px rgb(255 255 255 / 0.08),
+      inset -2px 0 2px rgb(0 0 0 / 0.34),
+      2px 4px 6px rgb(0 0 0 / 0.28);
+  }
+
+  .connectorSocket-front::after {
+    content: "";
+    position: absolute;
+    top: 17px;
+    right: -4px;
+    bottom: 17px;
+    width: 7px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #28292e, #56575d);
+    box-shadow:
+      -2px 0 2px rgb(0 0 0 / 0.32),
+      inset 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .connectorSocket-code {
+    position: absolute;
+    top: 18px;
+    left: 10px;
+    color: rgb(218 218 211 / 0.64);
+    font: 700 7px var(--font-mono);
+    letter-spacing: 0.8px;
+    writing-mode: vertical-rl;
+  }
+
+  .connectorSocket-revision {
+    position: absolute;
+    bottom: 18px;
+    left: 10px;
+    color: rgb(218 218 211 / 0.43);
+    font: 700 6px var(--font-mono);
+    letter-spacing: 0.7px;
+    writing-mode: vertical-rl;
+  }
+
+  .connectorSocket-mark {
+    position: absolute;
+    top: 50%;
+    left: 17px;
+    color: rgb(218 218 211 / 0.5);
+    font: 700 7px var(--font-mono);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+
+  .connectorSocket-rivet {
+    position: absolute;
+    left: 16px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #15161a;
+    box-shadow:
+      0 0 0 1px var(--color-ink-brass),
+      inset 1px 1px 2px rgb(0 0 0 / 0.8);
+  }
+
+  .connectorSocket-rivet-top {
+    top: 64px;
+  }
+
+  .connectorSocket-rivet-bottom {
+    bottom: 64px;
+  }
+
+  .connectorSocket-clip {
+    position: absolute;
+    top: -24px;
+    right: 1px;
+    z-index: 4;
+    width: 34px;
+    height: 42px;
+    transform-origin: 17px 36px;
+    transform: rotate(-18deg);
+    transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .connectorSocket-clip::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    bottom: 4px;
+    width: 11px;
+    height: 34px;
+    border-radius: 3px 3px 5px 5px;
+    background: linear-gradient(
+      90deg,
+      #202126 0 24%,
+      #35363c 24% 72%,
+      #55565d 72% 100%
+    );
+    clip-path: polygon(18% 100%, 0 22%, 18% 4%, 76% 0, 100% 18%, 82% 100%);
+    box-shadow:
+      2px 3px 4px rgb(0 0 0 / 0.38),
+      inset 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .connectorSocket-clip::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    bottom: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 38% 34%,
+      #73747b 0 18%,
+      #3a3b40 22% 56%,
+      #16171a 60% 100%
+    );
+    box-shadow:
+      0 0 0 1px #17181b,
+      0 2px 3px rgb(0 0 0 / 0.45);
+  }
+
+  .connectorSocket-clip span {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 27px;
+    height: 11px;
+    border-radius: 4px 3px 2px 2px;
+    background: linear-gradient(180deg, #65666e 0, #47484f 38%, #292a2f 100%);
+    clip-path: polygon(0 18%, 72% 0, 100% 28%, 94% 100%, 18% 100%, 0 72%);
+    box-shadow:
+      inset 0 2px 1px rgb(255 255 255 / 0.11),
+      1px 3px 4px rgb(0 0 0 / 0.38);
+  }
+
+  .connectorSocket-clip span::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    width: 7px;
+    height: 3px;
+    border-radius: 2px;
+    background: #1f2024;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 0.8);
+  }
+
+  .connectorSocket-active .connectorSocket-clip {
+    transform: rotate(0deg);
+    transition-delay: 0.46s;
+  }
+
+  .connectorSocket:not(.connectorSocket-active) .connectorSocket-clip {
+    transition-delay: 0s;
+  }
+  /* ---- ConnectorPlug — module mâle ---- */
+
+  .connectorPlug {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 240px;
+  }
+
+  .connectorPlug-edge {
+    --connector-gold-hi: #e8c878;
+    --connector-gold: #c9a35a;
+    --connector-gold-mid: #a9823e;
+    --connector-gold-low: #7a5a24;
+    --connector-pcb-hi: #4f7b55;
+    --connector-pcb: #315e3c;
+    --connector-pcb-low: #1f432b;
+    --connector-pcb-edge: #122a1a;
+
+    position: absolute;
+    top: 5%;
+    left: 8px;
+    width: 62px;
+    height: 90%;
+    overflow: hidden;
+    border-radius: 4px 0 0 4px;
+    border: 1px solid var(--connector-pcb-edge);
+    border-right: 0;
+    background:
+      radial-gradient(
+        circle at 80% 12%,
+        rgb(255 255 255 / 0.08),
+        transparent 22%
+      ),
+      linear-gradient(
+        90deg,
+        var(--connector-pcb-hi),
+        var(--connector-pcb) 52%,
+        var(--connector-pcb-low)
+      );
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      inset 0 -3px 5px rgb(0 0 0 / 0.28),
+      -4px 6px 8px rgb(0 0 0 / 0.34);
+  }
+
+  .connectorPlug-edge::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 31px;
+    background: linear-gradient(
+      90deg,
+      #0d1d13,
+      var(--connector-pcb-edge) 28%,
+      var(--connector-pcb-low)
+    );
+    box-shadow:
+      inset -1px 0 0 rgb(255 255 255 / 0.05),
+      2px 0 4px rgb(0 0 0 / 0.2);
+  }
+
+  .connectorPlug-edge::after {
+    content: attr(data-jack);
+    position: absolute;
+    top: 12px;
+    right: 5px;
+    color: rgb(213 214 202 / 0.72);
+    font: 700 7px var(--font-mono);
+    letter-spacing: 0.8px;
+    transform: rotate(90deg);
+  }
+
+  .connectorPlug-inner {
+    --pin-h: 4px;
+    --pin-gap: 2px;
+
+    position: absolute;
+    inset: 28px auto 28px 4px;
+    z-index: 2;
+    width: 22px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 var(--pin-gap),
+      var(--connector-gold-hi) var(--pin-gap) calc(var(--pin-gap) + 1px),
+      var(--connector-gold) calc(var(--pin-gap) + 1px)
+        calc(var(--pin-gap) + var(--pin-h) - 1px),
+      var(--connector-gold-low) calc(var(--pin-gap) + var(--pin-h) - 1px)
+        calc(var(--pin-gap) + var(--pin-h)),
+      transparent calc(var(--pin-gap) + var(--pin-h))
+        calc(var(--pin-gap) + var(--pin-h) + var(--pin-gap))
+    );
+    filter: drop-shadow(0 1px 0 var(--connector-gold-low));
+  }
+
+  .connectorPlug-traces {
+    position: absolute;
+    z-index: 1;
+    top: 28px;
+    bottom: 28px;
+    left: 25px;
+    width: 27px;
+    opacity: 0.6;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 2px,
+      #c0b27f 2px 3px,
+      transparent 3px 6px
+    );
+    mask-image: linear-gradient(90deg, #000, transparent 95%);
+  }
+
+  .connectorPlug-circleHole {
+    position: absolute;
+    z-index: 4;
+    top: 10px;
+    left: 7px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--color-room);
+    box-shadow:
+      0 0 0 1px var(--connector-gold-low),
+      inset 1px 1px 3px rgb(0 0 0 / 0.65);
+  }
+
+  .connectorPlug-pinHole {
+    position: absolute;
+    z-index: 5;
+    top: 40%;
+    left: -10px;
+    width: 22px;
+    height: 22px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: var(--color-room);
+    box-shadow:
+      0 0 0 1px var(--connector-gold-low),
+      inset -2px 0 3px rgb(0 0 0 / 0.55);
+  }
+
+  .connectorPlug-pinHole::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 5px solid var(--color-room);
+    border-radius: 50%;
+  }
+
+  .connectorPlug-via {
+    position: absolute;
+    z-index: 3;
+    right: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #0d1d13;
+    box-shadow: 0 0 0 1px var(--connector-gold-mid);
+  }
+
+  .connectorPlug-via-a {
+    top: 34%;
+  }
+
+  .connectorPlug-via-b {
+    top: 66%;
+  }
+
+  .connectorPlug-body {
+    flex: 1;
+    height: 100%;
+  }
+  /* -----------------------------------------------------------------------------
+   Dock — châssis home + prises persistantes + modules branchés.
+   La home et les modules déjà branchés restent toujours montés ; seules des
+   transformations CSS (pilotées par le state du dock) changent leur position.
+   ----------------------------------------------------------------------------- */
+
+  .dockChassis {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dockChassis-home {
+    position: relative;
+    transition: transform 0.5s cubic-bezier(0.5, 0, 0.2, 1);
+    transition-delay: 0s;
+    transform: translateX(0);
+  }
+
+  .dockChassis-home[data-pushed="true"] {
+    transform: translateX(-220px);
+  }
+
+  .dockChassis-home[data-pushed="false"][data-has-plugged="true"] {
+    transition-delay: 0.5s;
+  }
+
+  .dockChassis-socket {
+    position: absolute;
+    z-index: 5;
+  }
+
+  .dockChassis-socket-right {
+    top: 70%;
+    right: -38px;
+    height: 240px;
+    transform: translateY(-50%);
+  }
+
+  /* Zone de rappel : visible seulement quand un module est en vue principale.
+   Cliquer n'importe où sur la home repoussée la ramène au premier plan —
+   symétrique au clic sur un module "parked" qui, lui, l'active. */
+  .dockChassis-recall {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .dockModule {
+    position: absolute;
+    top: 70%;
+    right: 0;
+    z-index: 10;
+    width: min(560px, 90vw);
+    transition: transform 0.5s cubic-bezier(0.5, 0, 0.2, 1);
+    transition-delay: 0s;
+  }
+
+  .dockModule-hidden {
+    transform: translate(110%, -50%);
+  }
+
+  .dockModule-active {
+    transition-delay: 0.5s;
+    transform: translate(0, -50%);
+  }
+
+  .dockModule-parked {
+    transform: translate(calc(100% - 64px), -50%);
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,229 @@
+@import "tailwindcss";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource/ibm-plex-mono";
+@import "@fontsource/indie-flower";
+
+/* =============================================================================
+   DAWN-01 — feuille racine
+   DA : ISOL8. Référence verrouillée : design/isol8.html
+   Le HTML de référence gagne en cas de divergence avec ce fichier.
+
+   RÈGLE DE LUMIÈRE
+   Source unique en haut-droite. Toute ombre portée est décalée bas-gauche
+   (-Xpx +Ypx), jamais 0 Xpx. Les insets, eux, sont verticaux purs : ils
+   simulent la lumière rasante sur un chanfrein, pas une projection.
+
+   ORGANISATION
+   :root   → ingrédients. Arrêts de dégradés et couches d'ombre unitaires.
+             Jamais utilisés tels quels dans un composant : ils servent à
+             composer les recettes. Pas d'utility générée.
+   @theme  → tokens exposés à Tailwind. Génèrent des classes utilitaires et
+             restent disponibles en var() partout dans le CSS.
+
+   Ce fichier ne déclare QUE des tokens (couleurs, ombres, rayons) et le style
+   de base (body). Les classes réutilisables (.panel, .lcd, .knob...) sont
+   dans src/styles/classes.css ; le CSS propre à un composant est dans
+   src/styles/components.css.
+   ============================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------------------
+     BOÎTIER — arrêts du dégradé radial (centre lumineux à 66% 0%)
+     --------------------------------------------------------------------------- */
+  --stop-casing-0: #beb79e;
+  --stop-casing-1: #b1aa90;
+  --stop-casing-2: #a09a7e;
+  --stop-casing-3: #8b846b;
+  --stop-casing-4: #7a735c; /* variante plus sombre, zones en retrait */
+
+  /* ---------------------------------------------------------------------------
+     BEZELS / SURFACES SOMBRES — arrêts du dégradé linéaire
+     Ne jamais finir sur du noir pur : #141009 préserve la lisibilité du relief.
+     --------------------------------------------------------------------------- */
+  --stop-bezel-0: #453f34;
+  --stop-bezel-1: #211d16;
+  --stop-bezel-2: #1b1712;
+  --stop-bezel-3: #141009;
+
+  /* ---------------------------------------------------------------------------
+     TOUCHES, CARTES, PASTILLES — arrêts linéaires
+     --------------------------------------------------------------------------- */
+  --stop-key-0: #b7b3a0;
+  --stop-key-1: #a5a18d;
+  --stop-key-on-0: #8fdcb6;
+  --stop-key-on-1: #6cc59d;
+  --stop-card-0: #b3ad97;
+  --stop-card-1: #a29c85;
+  --stop-recess-0: #96938a; /* pastilles enfoncées (mon-select, dl-box) */
+  --stop-recess-1: #a7a49b;
+  --stop-darkkey-0: #38362f;
+  --stop-darkkey-1: #14110a;
+
+  /* ---------------------------------------------------------------------------
+     ÉCRANS
+     --------------------------------------------------------------------------- */
+  --stop-lcd-0: #a5a299;
+  --stop-lcd-1: #b1aea4;
+  --stop-lcd-dark-0: #1c1a15;
+  --stop-lcd-dark-1: #2e2b23;
+
+  /* ---------------------------------------------------------------------------
+     KNOBS — radial, centre haut
+     --------------------------------------------------------------------------- */
+  --stop-knob-0: #3c3c3c;
+  --stop-knob-1: #282828;
+  --stop-knob-2: #161616;
+  --stop-knob-3: #0c0c0c;
+  --stop-knob-pointer-0: #f0f0f0;
+  --stop-knob-pointer-1: #b9b9b9;
+
+  /* ---------------------------------------------------------------------------
+     COUCHES D'OMBRE UNITAIRES
+     Une custom property ne peut pas se référencer elle-même (cycle invalide,
+     l'ombre disparaît sans erreur). La granularité est donc la COUCHE, pas la
+     recette. Les recettes se composent plus bas dans @theme.
+     --------------------------------------------------------------------------- */
+
+  /* Contact — faible flou. Plus l'objet est proche de la surface, plus net. */
+  --sh-contact-near: -3px 4px 3px rgb(0 0 0 / 0.4);
+  --sh-contact-mid: -4px 5px 2px rgb(0 0 0 / 0.5);
+  --sh-contact-far: -6px 11px 13px rgb(0 0 0 / 0.42);
+
+  /* Pénombre — fort flou, faible opacité */
+  --sh-penumbra-near: -3px 4px 6px rgb(0 0 0 / 0.22);
+  --sh-penumbra-mid: -6px 9px 14px rgb(0 0 0 / 0.3);
+  --sh-penumbra-far: -2px 4px 5px rgb(0 0 0 / 0.35);
+
+  /* Chanfreins — verticaux purs, ne pas décaler */
+  --sh-bevel-top: inset 0 2px 2px rgb(255 255 255 / 0.45);
+  --sh-bevel-bottom: inset 0 -5px 7px rgb(0 0 0 / 0.22);
+  --sh-bevel-top-soft: inset 0 1px 1px rgb(255 255 255 / 0.12);
+  --sh-bevel-top-knob: inset 0 2px 2px rgb(255 255 255 / 0.14);
+  --sh-bevel-bottom-knob: inset 0 -4px 6px rgb(0 0 0 / 0.55);
+
+  /* Creux — inset par le haut + liseré blanc en dessous */
+  --sh-hollow-top: inset 0 3px 5px rgb(0 0 0 / 0.35);
+  --sh-hollow-top-deep: inset 0 3px 6px rgb(0 0 0 / 0.7);
+  --sh-hollow-lip: inset 0 -1px 1px rgb(255 255 255 / 0.3);
+  --sh-sliver: 0 1px 0 rgb(255 255 255 / 0.4);
+  --sh-sliver-soft: 0 1px 0 rgb(255 255 255 / 0.25);
+
+  /* Contour — remplace la border, qui n'existe plus dans cette DA */
+  --color-hairline: rgb(50 45 35 / 0.3);
+  --sh-hairline: 0 0 0 1px var(--color-hairline);
+
+  /* Glows — à ajouter en fin de box-shadow, pas dans les recettes de base */
+  --sh-glow-led: 0 0 10px rgb(170 235 80 / 0.85);
+  --sh-glow-key-on: 0 0 12px rgb(120 210 170 / 0.4);
+  --sh-glow-burnt: 0 0 30px rgb(250 110 55 / 0.35);
+  --sh-glow-amber: 0 0 30px rgb(250 220 80 / 0.35);
+}
+
+@theme {
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHIE
+     --------------------------------------------------------------------------- */
+  --font-sans: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --font-hand: "Indie Flower", cursive;
+
+  /* ---------------------------------------------------------------------------
+     RAYONS — échelle relevée sur isol8.html
+       xs  5px  ridge, chan
+       sm  7px  pad, dl-box
+       md  9px  lcd, dark-lcd
+       lg 13px  key, dim-btn, atten-card
+       xl 26px  panneau
+     Knobs et LED ne sont pas dans l'échelle : 50%, ce n'est pas un palier.
+     Les pastilles pill utilisent 9999px.
+     --------------------------------------------------------------------------- */
+  --radius-xs: 5px;
+  --radius-sm: 7px;
+  --radius-md: 9px;
+  --radius-lg: 13px;
+  --radius-xl: 26px;
+
+  /* ---------------------------------------------------------------------------
+     MATIÈRE — couleurs plates issues des arrêts ci-dessus
+     --------------------------------------------------------------------------- */
+  --color-casing: var(--stop-casing-0);
+  --color-bezel: var(--stop-bezel-3);
+  --color-ridge: #2c2820;
+
+  /* Pièce sombre derrière le boîtier — sert de fond au panel flottant (home),
+     jamais utilisée pour un fond plein-écran (le boîtier fait déjà ce rôle
+     ailleurs dans l'app). */
+  --color-room: #26241f;
+
+  /* Encres sérigraphiées. Toutes chaudes : un gris neutre lit comme une tache
+     morte sur un boîtier beige. */
+  --color-ink: #33312a;
+  --color-ink-strong: #2d2b24;
+  --color-ink-soft: #45423a;
+  --color-ink-muted: #38362d;
+  --color-ink-faint: #514e3b;
+  --color-ink-brass: #8a7440;
+
+  /* Textes sur surfaces */
+  --color-on-lcd: #33312c;
+  --color-on-lcd-dark: #d7d3c6;
+  --color-on-key: #2e2c24;
+  --color-on-key-on: #1d4a38;
+  --color-on-darkkey: #e8e4d6;
+  --color-on-chan: #8f8b7c;
+
+  /* Écran CRT (terminal) — alias sur les stops/textes écran existants. */
+  --color-crt-glass: var(--stop-lcd-dark-0);
+  --color-crt-text: var(--color-on-lcd-dark);
+  --color-crt-dim: var(--color-on-chan);
+
+  /* ---------------------------------------------------------------------------
+     ÉTATS FONCTIONNELS — héritage DAWN, hors palette ISOL8.
+     Réservés au statut, jamais décoratifs.
+     --------------------------------------------------------------------------- */
+  --color-burnt: #c94e1e;
+  --color-amber: #e8a020;
+  --color-alert: #cc1a1a;
+  --color-crt: #39ff14; /* phosphore : écrans uniquement */
+
+  /* Voyants physiques — vert LED chaud, distinct du phosphore CRT */
+  --color-led-core: #f2ffc4;
+  --color-led: #b3e94e;
+  --color-led-rim: #558f18;
+  --color-led-off: #798068;
+  --color-led-off-rim: #494e3e;
+
+  /* ---------------------------------------------------------------------------
+     RECETTES D'OMBRE — composées depuis les couches de :root
+     Pour ajouter un glow, ne modifie pas la recette : compose à l'usage.
+       box-shadow: var(--shadow-pose), var(--sh-glow-led);
+     --------------------------------------------------------------------------- */
+  --shadow-pose: var(--sh-contact-mid), var(--sh-penumbra-mid);
+  --shadow-pose-bas: var(--sh-contact-near), var(--sh-penumbra-near);
+  --shadow-pose-haut: var(--sh-contact-far), var(--sh-penumbra-far);
+  --shadow-bombe:
+    var(--sh-hairline), var(--sh-contact-near), var(--sh-bevel-top),
+    var(--sh-bevel-bottom);
+  --shadow-bombe-knob:
+    var(--sh-contact-far), var(--sh-penumbra-far), var(--sh-bevel-top-knob),
+    var(--sh-bevel-bottom-knob);
+  --shadow-creuse: var(--sh-hollow-top), var(--sh-hollow-lip), var(--sh-sliver);
+  --shadow-creuse-profond: var(--sh-hollow-top-deep), var(--sh-sliver-soft);
+}
+
+@layer base {
+  body {
+    /* La couleur plate sert de fallback sous le dégradé. */
+    background-color: var(--color-casing);
+    background-image: radial-gradient(
+      125% 105% at 66% 0%,
+      var(--stop-casing-0) 0%,
+      var(--stop-casing-1) 50%,
+      var(--stop-casing-2) 78%,
+      var(--stop-casing-3) 100%
+    );
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+  }
+}
