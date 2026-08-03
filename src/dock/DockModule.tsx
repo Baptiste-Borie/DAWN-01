@@ -26,15 +26,17 @@ export default function DockModule({ phase, onActivate, onUnplugged, children }:
   const visualPhase = phase === "unplugging" ? "hidden" : entered ? phase : "hidden";
 
   return (
-    <div
-      className={`dockModule dockModule-${visualPhase}`}
-      onClick={visualPhase === "parked" ? onActivate : undefined}
-      onTransitionEnd={(e) => {
-        if (e.target !== e.currentTarget) return;
-        if (phase === "unplugging") onUnplugged();
-      }}
-    >
-      {children}
+    <div className="dockModule-track">
+      <div
+        className={`dockModule dockModule-${visualPhase}`}
+        onClick={visualPhase === "parked" ? onActivate : undefined}
+        onTransitionEnd={(e) => {
+          if (e.target !== e.currentTarget) return;
+          if (phase === "unplugging") onUnplugged();
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }

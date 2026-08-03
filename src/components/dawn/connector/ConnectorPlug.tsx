@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./ConnectorPlug.css";
 
 interface ConnectorPlugProps {
   className?: string;

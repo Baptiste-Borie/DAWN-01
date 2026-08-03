@@ -1447,415 +1447,6 @@
   }
 
   /* -----------------------------------------------------------------------------
-   Connecteur — prise femelle (ConnectorSocket) et module mâle (ConnectorPlug).
-   Extrait de public/mockups/connecteur-poc.html. Purement visuel : le
-   positionnement (quel bord, quelle prise, quelle phase d'animation) est du
-   ressort du futur Dock, pas de ces composants.
-   ----------------------------------------------------------------------------- */
-
-  .connectorSocket {
-    --connector-gold-hi: #e8c878;
-    --connector-gold: #c9a35a;
-    --connector-gold-low: #7a5a24;
-
-    position: relative;
-    width: 62px;
-    height: 100%;
-  }
-
-  .connectorSocket-back {
-    position: absolute;
-    inset: 0 0 0 auto;
-    z-index: 1;
-    width: 30px;
-    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
-    background: linear-gradient(
-      90deg,
-      #18191d 0 28%,
-      #292a2f 28% 72%,
-      #5b5c63 72% 100%
-    );
-    box-shadow:
-      5px 5px 8px rgb(0 0 0 / 0.38),
-      inset -2px 0 2px rgb(255 255 255 / 0.08);
-  }
-
-  .connectorSocket-back::before {
-    content: "";
-    position: absolute;
-    top: 18px;
-    bottom: 18px;
-    left: 2px;
-    width: 15px;
-    border-radius: 3px;
-    background: linear-gradient(90deg, #08090b, #17181c);
-    box-shadow:
-      inset 4px 0 5px rgb(0 0 0 / 0.9),
-      inset -1px 0 rgb(255 255 255 / 0.06);
-  }
-
-  .connectorSocket-contacts {
-    position: absolute;
-    z-index: 2;
-    top: 28px;
-    bottom: 28px;
-    left: 5px;
-    width: 7px;
-    opacity: 0.9;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0 2px,
-      var(--connector-gold-hi) 2px 3px,
-      var(--connector-gold) 3px 6px,
-      var(--connector-gold-low) 6px 7px,
-      transparent 7px 10px
-    );
-    filter: drop-shadow(-1px 0 0 var(--connector-gold-low));
-  }
-
-  .connectorSocket-front {
-    position: absolute;
-    inset: 0 auto 0 0;
-    z-index: 3;
-    width: 39px;
-    border-radius: var(--radius-sm) 2px 2px var(--radius-sm);
-    background:
-      repeating-linear-gradient(
-        to bottom,
-        transparent 0 30px,
-        rgb(255 255 255 / 0.055) 30px 31px,
-        transparent 31px 61px
-      ),
-      linear-gradient(90deg, #25262a 0 62%, #3d3e44 62% 84%, #56575e 84% 100%);
-    box-shadow:
-      inset 2px 0 2px rgb(255 255 255 / 0.08),
-      inset -2px 0 2px rgb(0 0 0 / 0.34),
-      2px 4px 6px rgb(0 0 0 / 0.28);
-  }
-
-  .connectorSocket-front::after {
-    content: "";
-    position: absolute;
-    top: 17px;
-    right: -4px;
-    bottom: 17px;
-    width: 7px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #28292e, #56575d);
-    box-shadow:
-      -2px 0 2px rgb(0 0 0 / 0.32),
-      inset 1px 0 rgb(255 255 255 / 0.08);
-  }
-
-  .connectorSocket-code {
-    position: absolute;
-    top: 18px;
-    left: 10px;
-    color: rgb(218 218 211 / 0.64);
-    font: 700 7px var(--font-mono);
-    letter-spacing: 0.8px;
-    writing-mode: vertical-rl;
-  }
-
-  .connectorSocket-revision {
-    position: absolute;
-    bottom: 18px;
-    left: 10px;
-    color: rgb(218 218 211 / 0.43);
-    font: 700 6px var(--font-mono);
-    letter-spacing: 0.7px;
-    writing-mode: vertical-rl;
-  }
-
-  .connectorSocket-mark {
-    position: absolute;
-    top: 50%;
-    left: 17px;
-    color: rgb(218 218 211 / 0.5);
-    font: 700 7px var(--font-mono);
-    letter-spacing: 1px;
-    white-space: nowrap;
-    transform: translate(-50%, -50%) rotate(-90deg);
-  }
-
-  .connectorSocket-rivet {
-    position: absolute;
-    left: 16px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #15161a;
-    box-shadow:
-      0 0 0 1px var(--color-ink-brass),
-      inset 1px 1px 2px rgb(0 0 0 / 0.8);
-  }
-
-  .connectorSocket-rivet-top {
-    top: 64px;
-  }
-
-  .connectorSocket-rivet-bottom {
-    bottom: 64px;
-  }
-
-  .connectorSocket-clip {
-    position: absolute;
-    top: -24px;
-    right: 1px;
-    z-index: 4;
-    width: 34px;
-    height: 42px;
-    transform-origin: 17px 36px;
-    transform: rotate(-18deg);
-    transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .connectorSocket-clip::before {
-    content: "";
-    position: absolute;
-    left: 11px;
-    bottom: 4px;
-    width: 11px;
-    height: 34px;
-    border-radius: 3px 3px 5px 5px;
-    background: linear-gradient(
-      90deg,
-      #202126 0 24%,
-      #35363c 24% 72%,
-      #55565d 72% 100%
-    );
-    clip-path: polygon(18% 100%, 0 22%, 18% 4%, 76% 0, 100% 18%, 82% 100%);
-    box-shadow:
-      2px 3px 4px rgb(0 0 0 / 0.38),
-      inset 1px 0 rgb(255 255 255 / 0.08);
-  }
-
-  .connectorSocket-clip::after {
-    content: "";
-    position: absolute;
-    left: 13px;
-    bottom: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 38% 34%,
-      #73747b 0 18%,
-      #3a3b40 22% 56%,
-      #16171a 60% 100%
-    );
-    box-shadow:
-      0 0 0 1px #17181b,
-      0 2px 3px rgb(0 0 0 / 0.45);
-  }
-
-  .connectorSocket-clip span {
-    position: absolute;
-    top: 0;
-    left: 5px;
-    width: 27px;
-    height: 11px;
-    border-radius: 4px 3px 2px 2px;
-    background: linear-gradient(180deg, #65666e 0, #47484f 38%, #292a2f 100%);
-    clip-path: polygon(0 18%, 72% 0, 100% 28%, 94% 100%, 18% 100%, 0 72%);
-    box-shadow:
-      inset 0 2px 1px rgb(255 255 255 / 0.11),
-      1px 3px 4px rgb(0 0 0 / 0.38);
-  }
-
-  .connectorSocket-clip span::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    right: 4px;
-    width: 7px;
-    height: 3px;
-    border-radius: 2px;
-    background: #1f2024;
-    box-shadow: inset 0 1px 1px rgb(0 0 0 / 0.8);
-  }
-
-  .connectorSocket-active .connectorSocket-clip {
-    transform: rotate(0deg);
-    transition-delay: 0.46s;
-  }
-
-  .connectorSocket:not(.connectorSocket-active) .connectorSocket-clip {
-    transition-delay: 0s;
-  }
-  /* ---- ConnectorPlug — module mâle ---- */
-
-  .connectorPlug {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 240px;
-  }
-
-  .connectorPlug-edge {
-    --connector-gold-hi: #e8c878;
-    --connector-gold: #c9a35a;
-    --connector-gold-mid: #a9823e;
-    --connector-gold-low: #7a5a24;
-    --connector-pcb-hi: #4f7b55;
-    --connector-pcb: #315e3c;
-    --connector-pcb-low: #1f432b;
-    --connector-pcb-edge: #122a1a;
-
-    position: absolute;
-    top: 5%;
-    left: 8px;
-    width: 62px;
-    height: 90%;
-    overflow: hidden;
-    border-radius: 4px 0 0 4px;
-    border: 1px solid var(--connector-pcb-edge);
-    border-right: 0;
-    background:
-      radial-gradient(
-        circle at 80% 12%,
-        rgb(255 255 255 / 0.08),
-        transparent 22%
-      ),
-      linear-gradient(
-        90deg,
-        var(--connector-pcb-hi),
-        var(--connector-pcb) 52%,
-        var(--connector-pcb-low)
-      );
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.12),
-      inset 0 -3px 5px rgb(0 0 0 / 0.28),
-      -4px 6px 8px rgb(0 0 0 / 0.34);
-  }
-
-  .connectorPlug-edge::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 31px;
-    background: linear-gradient(
-      90deg,
-      #0d1d13,
-      var(--connector-pcb-edge) 28%,
-      var(--connector-pcb-low)
-    );
-    box-shadow:
-      inset -1px 0 0 rgb(255 255 255 / 0.05),
-      2px 0 4px rgb(0 0 0 / 0.2);
-  }
-
-  .connectorPlug-edge::after {
-    content: attr(data-jack);
-    position: absolute;
-    top: 12px;
-    right: 5px;
-    color: rgb(213 214 202 / 0.72);
-    font: 700 7px var(--font-mono);
-    letter-spacing: 0.8px;
-    transform: rotate(90deg);
-  }
-
-  .connectorPlug-inner {
-    --pin-h: 4px;
-    --pin-gap: 2px;
-
-    position: absolute;
-    inset: 28px auto 28px 4px;
-    z-index: 2;
-    width: 22px;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0 var(--pin-gap),
-      var(--connector-gold-hi) var(--pin-gap) calc(var(--pin-gap) + 1px),
-      var(--connector-gold) calc(var(--pin-gap) + 1px)
-        calc(var(--pin-gap) + var(--pin-h) - 1px),
-      var(--connector-gold-low) calc(var(--pin-gap) + var(--pin-h) - 1px)
-        calc(var(--pin-gap) + var(--pin-h)),
-      transparent calc(var(--pin-gap) + var(--pin-h))
-        calc(var(--pin-gap) + var(--pin-h) + var(--pin-gap))
-    );
-    filter: drop-shadow(0 1px 0 var(--connector-gold-low));
-  }
-
-  .connectorPlug-traces {
-    position: absolute;
-    z-index: 1;
-    top: 28px;
-    bottom: 28px;
-    left: 25px;
-    width: 27px;
-    opacity: 0.6;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0 2px,
-      #c0b27f 2px 3px,
-      transparent 3px 6px
-    );
-    mask-image: linear-gradient(90deg, #000, transparent 95%);
-  }
-
-  .connectorPlug-circleHole {
-    position: absolute;
-    z-index: 4;
-    top: 10px;
-    left: 7px;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: var(--color-room);
-    box-shadow:
-      0 0 0 1px var(--connector-gold-low),
-      inset 1px 1px 3px rgb(0 0 0 / 0.65);
-  }
-
-  .connectorPlug-pinHole {
-    position: absolute;
-    z-index: 5;
-    top: 40%;
-    left: -10px;
-    width: 22px;
-    height: 22px;
-    transform: translateY(-50%);
-    border-radius: 50%;
-    background: var(--color-room);
-    box-shadow:
-      0 0 0 1px var(--connector-gold-low),
-      inset -2px 0 3px rgb(0 0 0 / 0.55);
-  }
-
-  .connectorPlug-pinHole::after {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    border: 5px solid var(--color-room);
-    border-radius: 50%;
-  }
-
-  .connectorPlug-via {
-    position: absolute;
-    z-index: 3;
-    right: 8px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #0d1d13;
-    box-shadow: 0 0 0 1px var(--connector-gold-mid);
-  }
-
-  .connectorPlug-via-a {
-    top: 34%;
-  }
-
-  .connectorPlug-via-b {
-    top: 66%;
-  }
-
-  .connectorPlug-body {
-    flex: 1;
-    height: 100%;
-  }
-  /* -----------------------------------------------------------------------------
    Dock — châssis home + prises persistantes + modules branchés.
    La home et les modules déjà branchés restent toujours montés ; seules des
    transformations CSS (pilotées par le state du dock) changent leur position.
@@ -1863,18 +1454,20 @@
 
   .dockChassis {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
   }
 
   .dockChassis-home {
     position: relative;
-    transition: transform 0.5s cubic-bezier(0.5, 0, 0.2, 1);
+    border-radius: var(--radius-xl);
+    left: 0;
+    transition: left 0.5s cubic-bezier(0.5, 0, 0.2, 1);
     transition-delay: 0s;
-    transform: translateX(0);
   }
 
   .dockChassis-home[data-pushed="true"] {
-    transform: translateX(-220px);
+    left: -220px;
   }
 
   .dockChassis-home[data-pushed="false"][data-has-plugged="true"] {
@@ -1883,14 +1476,12 @@
 
   .dockChassis-socket {
     position: absolute;
-    z-index: 5;
   }
 
   .dockChassis-socket-right {
-    top: 70%;
+    top: calc(70% - 120px);
     right: -38px;
     height: 240px;
-    transform: translateY(-50%);
   }
 
   /* Zone de rappel : visible seulement quand un module est en vue principale.
@@ -1904,27 +1495,36 @@
     background: transparent;
     cursor: pointer;
   }
-  .dockModule {
+  .dockModule-track {
     position: absolute;
-    top: 70%;
-    right: 0;
-    z-index: 10;
-    width: min(560px, 90vw);
-    transition: transform 0.5s cubic-bezier(0.5, 0, 0.2, 1);
+    inset: 32% 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+
+  .dockModule {
+    --dock-module-width: min(560px, 90vw);
+
+    position: relative;
+    width: var(--dock-module-width);
+    pointer-events: auto;
+    transition: margin-right 0.5s cubic-bezier(0.5, 0, 0.2, 1);
     transition-delay: 0s;
   }
 
   .dockModule-hidden {
-    transform: translate(110%, -50%);
+    margin-right: calc(0px - var(--dock-module-width) - 64px);
   }
 
   .dockModule-active {
     transition-delay: 0.5s;
-    transform: translate(0, -50%);
+    margin-right: -40px;
   }
 
   .dockModule-parked {
-    transform: translate(calc(100% - 64px), -50%);
+    margin-right: calc(0px - var(--dock-module-width));
     cursor: pointer;
   }
 }

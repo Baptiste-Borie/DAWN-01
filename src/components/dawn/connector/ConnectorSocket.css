@@ -1,0 +1,233 @@
+/* Styles visuels propres à ConnectorSocket. */
+@layer components {
+  :where(.connectorSocket) {
+    --connector-gold-hi: #e8c878;
+    --connector-gold: #c9a35a;
+    --connector-gold-low: #7a5a24;
+
+    position: relative;
+    width: 62px;
+    height: 100%;
+  }
+
+  .connectorSocket-back {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: 1;
+    width: 30px;
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    background: linear-gradient(
+      90deg,
+      #18191d 0 28%,
+      #292a2f 28% 72%,
+      #5b5c63 72% 100%
+    );
+    box-shadow:
+      5px 5px 8px rgb(0 0 0 / 0.38),
+      inset -2px 0 2px rgb(255 255 255 / 0.08);
+  }
+
+  .connectorSocket-back::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    bottom: 18px;
+    left: 2px;
+    width: 15px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #08090b, #17181c);
+    box-shadow:
+      inset 4px 0 5px rgb(0 0 0 / 0.9),
+      inset -1px 0 rgb(255 255 255 / 0.06);
+  }
+
+  .connectorSocket-contacts {
+    position: absolute;
+    z-index: 2;
+    top: 28px;
+    bottom: 28px;
+    left: 5px;
+    width: 7px;
+    opacity: 0.9;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 2px,
+      var(--connector-gold-hi) 2px 3px,
+      var(--connector-gold) 3px 6px,
+      var(--connector-gold-low) 6px 7px,
+      transparent 7px 10px
+    );
+    filter: drop-shadow(-1px 0 0 var(--connector-gold-low));
+  }
+
+  .connectorSocket-front {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 3;
+    width: 39px;
+    border-radius: var(--radius-sm) 2px 2px var(--radius-sm);
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 30px,
+        rgb(255 255 255 / 0.055) 30px 31px,
+        transparent 31px 61px
+      ),
+      linear-gradient(90deg, #25262a 0 62%, #3d3e44 62% 84%, #56575e 84% 100%);
+    box-shadow:
+      inset 2px 0 2px rgb(255 255 255 / 0.08),
+      inset -2px 0 2px rgb(0 0 0 / 0.34),
+      2px 4px 6px rgb(0 0 0 / 0.28);
+  }
+
+  .connectorSocket-front::after {
+    content: "";
+    position: absolute;
+    top: 17px;
+    right: -4px;
+    bottom: 17px;
+    width: 7px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #28292e, #56575d);
+    box-shadow:
+      -2px 0 2px rgb(0 0 0 / 0.32),
+      inset 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .connectorSocket-code {
+    position: absolute;
+    top: 18px;
+    left: 10px;
+    color: rgb(218 218 211 / 0.64);
+    font: 700 7px var(--font-mono);
+    letter-spacing: 0.8px;
+    writing-mode: vertical-rl;
+  }
+
+  .connectorSocket-revision {
+    position: absolute;
+    bottom: 18px;
+    left: 10px;
+    color: rgb(218 218 211 / 0.43);
+    font: 700 6px var(--font-mono);
+    letter-spacing: 0.7px;
+    writing-mode: vertical-rl;
+  }
+
+  .connectorSocket-mark {
+    position: absolute;
+    top: 50%;
+    left: 17px;
+    color: rgb(218 218 211 / 0.5);
+    font: 700 7px var(--font-mono);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+
+  .connectorSocket-rivet {
+    position: absolute;
+    left: 16px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #15161a;
+    box-shadow:
+      0 0 0 1px var(--color-ink-brass),
+      inset 1px 1px 2px rgb(0 0 0 / 0.8);
+  }
+
+  .connectorSocket-rivet-top {
+    top: 64px;
+  }
+
+  .connectorSocket-rivet-bottom {
+    bottom: 64px;
+  }
+
+  .connectorSocket-clip {
+    position: absolute;
+    top: -24px;
+    right: 1px;
+    z-index: 4;
+    width: 34px;
+    height: 42px;
+    transform-origin: 17px 36px;
+    transform: rotate(-18deg);
+    transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .connectorSocket-clip::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    bottom: 4px;
+    width: 11px;
+    height: 34px;
+    border-radius: 3px 3px 5px 5px;
+    background: linear-gradient(
+      90deg,
+      #202126 0 24%,
+      #35363c 24% 72%,
+      #55565d 72% 100%
+    );
+    clip-path: polygon(18% 100%, 0 22%, 18% 4%, 76% 0, 100% 18%, 82% 100%);
+    box-shadow:
+      2px 3px 4px rgb(0 0 0 / 0.38),
+      inset 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .connectorSocket-clip::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    bottom: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 38% 34%,
+      #73747b 0 18%,
+      #3a3b40 22% 56%,
+      #16171a 60% 100%
+    );
+    box-shadow:
+      0 0 0 1px #17181b,
+      0 2px 3px rgb(0 0 0 / 0.45);
+  }
+
+  .connectorSocket-clip span {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 27px;
+    height: 11px;
+    border-radius: 4px 3px 2px 2px;
+    background: linear-gradient(180deg, #65666e 0, #47484f 38%, #292a2f 100%);
+    clip-path: polygon(0 18%, 72% 0, 100% 28%, 94% 100%, 18% 100%, 0 72%);
+    box-shadow:
+      inset 0 2px 1px rgb(255 255 255 / 0.11),
+      1px 3px 4px rgb(0 0 0 / 0.38);
+  }
+
+  .connectorSocket-clip span::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    width: 7px;
+    height: 3px;
+    border-radius: 2px;
+    background: #1f2024;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 0.8);
+  }
+
+  .connectorSocket-active .connectorSocket-clip {
+    transform: rotate(0deg);
+    transition-delay: 1s;
+  }
+
+  .connectorSocket:not(.connectorSocket-active) .connectorSocket-clip {
+    transition-delay: 0s;
+  }
+}

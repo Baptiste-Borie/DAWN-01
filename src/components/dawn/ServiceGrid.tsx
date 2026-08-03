@@ -30,14 +30,16 @@ interface ServiceGridProps {
   /** Appelé quand un service pluggable (ex: ytdl) est cliqué, avec son id de module.
    *  Branche ça sur dock.plug(port, serviceId). */
   onNavigate?: (serviceId: string) => void;
+  pluggedServiceId?: string;
 }
 
-export default function ServiceGrid({ onNavigate }: ServiceGridProps) {
+export default function ServiceGrid({ onNavigate, pluggedServiceId }: ServiceGridProps) {
   const [activeSlot, setActiveSlot] = useState<string | null>(null);
   const activeService = SERVICES.find((s) => s.id === activeSlot) ?? null;
 
   const toggleSlot = (service: Service) => {
     if (service.status === "unknown") return;
+    if (service.id === "monitoring") return;
     if (service.route) {
       onNavigate?.(service.route);
       return;
@@ -45,7 +47,12 @@ export default function ServiceGrid({ onNavigate }: ServiceGridProps) {
     setActiveSlot((prev) => (prev === service.id ? null : service.id));
   };
 
-  const onlineCount = SERVICES.filter((s) => s.status === "online").length;
+  const getDisplayStatus = (service: Service): ServiceStatus => {
+    if (service.id === "ytdl" && pluggedServiceId !== "ytdl") return "offline";
+    return service.status;
+  };
+
+  const onlineCount = SERVICES.filter((service) => getDisplayStatus(service) === "online").length;
 
   return (
     <div className="serviceGrid-wrapper">
@@ -57,24 +64,27 @@ export default function ServiceGrid({ onNavigate }: ServiceGridProps) {
       </div>
 
       <div className="serviceGrid-services">
-        {SERVICES.map((service) => (
-          <div key={service.id} className="serviceGrid-padCol">
-            <button
-              className={`above-grain serviceGrid-pad serviceGrid-${service.status} ${
-                activeSlot === service.id ? "serviceGrid-active" : ""
-              }`}
-              onClick={() => toggleSlot(service)}
-            >
-              <span className="serviceGrid-padRidge">
-                <span className="serviceGrid-padFace">{service.name}</span>
+        {SERVICES.map((service) => {
+          const displayStatus = getDisplayStatus(service);
+
+          return (
+            <div key={service.id} className="serviceGrid-padCol">
+              <button
+                className={`above-grain serviceGrid-pad serviceGrid-${displayStatus} ${
+                  activeSlot === service.id ? "serviceGrid-active" : ""
+                }`}
+                onClick={() => toggleSlot(service)}
+              >
+                <span className="serviceGrid-padRidge">
+                  <span className="serviceGrid-padFace">{service.name}</span>
+                </span>
+              </button>
+              <span className="above-grain serviceGrid-chan">
+                {service.mod.replace("MOD · ", "")} · {displayStatus.toUpperCase()}
               </span>
-            </button>
-            <span className="above-grain serviceGrid-chan">
-              {service.mod.replace("MOD · ", "")} ·{" "}
-              {service.status.toUpperCase()}
-            </span>
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
 
       {activeService && (

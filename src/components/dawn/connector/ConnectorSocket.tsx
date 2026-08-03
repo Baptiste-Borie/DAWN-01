@@ -1,3 +1,5 @@
+import "./ConnectorSocket.css";
+
 interface ConnectorSocketProps {
   className?: string;
   /** Clip fermé + LED verte. Purement visuel ici — le dock pilotera cette prop plus tard. */
