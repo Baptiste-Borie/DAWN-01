@@ -37,19 +37,23 @@ export default function HomeChassis() {
 
           <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[1.42fr_1fr]">
             <TerminalShell />
-            <ServiceGrid onNavigate={handlePlugRequest} />
+            <ServiceGrid
+              onNavigate={handlePlugRequest}
+              pluggedServiceId={rightServiceId}
+            />
           </div>
 
           <HomeBottomBar />
 
           <PostIt />
 
-          <ConnectorSocket
-            className="dockChassis-socket dockChassis-socket-right"
-            active={rightActive}
-            mark="DIMM_A1"
-          />
         </div>
+
+        <ConnectorSocket
+          className="dockChassis-socket dockChassis-socket-right"
+          active={rightActive}
+          mark="DIMM_A1"
+        />
 
         {pushed && (
           <button
