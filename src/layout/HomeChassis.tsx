@@ -23,49 +23,61 @@ export default function HomeChassis() {
   };
 
   return (
-    <div className="dockChassis flex min-h-screen items-center justify-center bg-[var(--color-room)] p-6">
-      <div
-        className="dockChassis-home"
-        data-pushed={pushed}
-        data-has-plugged={hasPluggedModule}
-      >
-        <div className="panel home-panel">
-          <div className="panel-vignette" />
-          <div className="panel-bevel" />
+    <div className="dockChassis">
+      <div className="dockScene">
+        <div
+          className="dockChassis-home"
+          data-pushed={pushed}
+          data-has-plugged={hasPluggedModule}
+        >
+          <div className="panel home-panel">
+            <div className="panel-vignette" />
+            <div className="panel-bevel" />
 
-          <HomeNavbar />
+            <HomeNavbar />
 
-          <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[1.42fr_1fr]">
-            <TerminalShell />
-            <ServiceGrid
-              onNavigate={handlePlugRequest}
-              pluggedServiceId={rightServiceId}
-            />
+            <div className="grid grid-cols-[1.42fr_1fr] items-stretch gap-4">
+              <TerminalShell />
+              <ServiceGrid
+                onNavigate={handlePlugRequest}
+                pluggedServiceId={rightServiceId}
+              />
+            </div>
+
+            <HomeBottomBar />
+
+            <PostIt />
           </div>
 
-          <HomeBottomBar />
-
-          <PostIt />
-
+          {pushed && (
+            <button
+              type="button"
+              className="dockChassis-recall"
+              aria-label="Revenir à la home"
+              onClick={dock.goHome}
+            />
+          )}
         </div>
 
         <ConnectorSocket
-          className="dockChassis-socket dockChassis-socket-right"
+          className="dockChassis-socket dockChassis-socket-back"
+          layer="back"
           active={rightActive}
-          mark="DIMM_A1"
+          pushed={pushed}
+          hasPlugged={hasPluggedModule}
         />
 
-        {pushed && (
-          <button
-            type="button"
-            className="dockChassis-recall"
-            aria-label="Revenir à la home"
-            onClick={dock.goHome}
-          />
-        )}
-      </div>
+        <DockPort port="right" />
 
-      <DockPort port="right" />
+        <ConnectorSocket
+          className="dockChassis-socket dockChassis-socket-front"
+          layer="front"
+          active={rightActive}
+          mark="DIMM_A1"
+          pushed={pushed}
+          hasPlugged={hasPluggedModule}
+        />
+      </div>
     </div>
   );
 }

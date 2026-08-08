@@ -364,9 +364,8 @@
 
   /* Coque du panneau Home — .panel + fond boîtier + grande ombre portée */
   .home-panel {
-    width: 100%;
-    max-width: 1300px;
-    margin-inline: auto;
+    width: 1300px;
+    height: 738px;
     border-radius: var(--radius-xl);
     padding: 24px 30px 26px;
     display: flex;
